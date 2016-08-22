@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		72FC2C671D6AAE2F00DEB0E0 /* MetaModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72FC2C661D6AAE2F00DEB0E0 /* MetaModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		72FC2C8A1D6AB2C600DEB0E0 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FC2C891D6AB2C600DEB0E0 /* Person.swift */; };
+		72FC2C931D6AB2ED00DEB0E0 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72FC2C791D6AAF0F00DEB0E0 /* SQLite.framework */; };
+		72FC2C951D6AB3ED00DEB0E0 /* MetaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FC2C941D6AB3ED00DEB0E0 /* MetaModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +70,8 @@
 		72FC2C661D6AAE2F00DEB0E0 /* MetaModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetaModel.h; sourceTree = "<group>"; };
 		72FC2C681D6AAE2F00DEB0E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72FC2C6E1D6AAF0F00DEB0E0 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
+		72FC2C891D6AB2C600DEB0E0 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		72FC2C941D6AB3ED00DEB0E0 /* MetaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72FC2C931D6AB2ED00DEB0E0 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				72FC2C651D6AAE2F00DEB0E0 /* MetaModel */,
+				72FC2C921D6AB2CF00DEB0E0 /* Supporting FIles */,
 				72FC2C641D6AAE2F00DEB0E0 /* Products */,
 				72FC2C6E1D6AAF0F00DEB0E0 /* SQLite.xcodeproj */,
 			);
@@ -100,8 +107,8 @@
 		72FC2C651D6AAE2F00DEB0E0 /* MetaModel */ = {
 			isa = PBXGroup;
 			children = (
-				72FC2C661D6AAE2F00DEB0E0 /* MetaModel.h */,
-				72FC2C681D6AAE2F00DEB0E0 /* Info.plist */,
+				72FC2C941D6AB3ED00DEB0E0 /* MetaModel.swift */,
+				72FC2C891D6AB2C600DEB0E0 /* Person.swift */,
 			);
 			path = MetaModel;
 			sourceTree = "<group>";
@@ -118,6 +125,16 @@
 				72FC2C851D6AAF0F00DEB0E0 /* SQLite.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		72FC2C921D6AB2CF00DEB0E0 /* Supporting FIles */ = {
+			isa = PBXGroup;
+			children = (
+				72FC2C661D6AAE2F00DEB0E0 /* MetaModel.h */,
+				72FC2C681D6AAE2F00DEB0E0 /* Info.plist */,
+			);
+			name = "Supporting FIles";
+			path = MetaModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,6 +273,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72FC2C951D6AB3ED00DEB0E0 /* MetaModel.swift in Sources */,
+				72FC2C8A1D6AB2C600DEB0E0 /* Person.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

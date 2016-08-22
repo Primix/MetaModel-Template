@@ -39,7 +39,7 @@ extension Person {
         static var query: QueryType { get { return meta.table.filter(meta.id == self.id) } }
         
         static func createTable() {
-            try? db.run(table.create { t in
+            _ = try? db.run(table.create { t in
                 t.column(id, primaryKey: true)
                 t.column(name)
                 t.column(email, unique: true)
@@ -79,19 +79,19 @@ public extension Person {
     
     static func create(id: Int, name: String?, email: String) -> Person {
         let insert = meta.table.insert(meta.name <- name, meta.email <- email)
-        try? db.run(insert)
+        _ = try? db.run(insert)
         return Person(id: id, name: name, email: email)
     }
-    
-    static func find(id id: Int) -> Person? {
+
+    static func findBy(id id: Int) -> Person? {
         return meta.findOne(meta.table.filter(meta.id == id))
     }
     
-    static func find(name name: String) -> [Person] {
+    static func findBy(name name: String) -> [Person] {
         return meta.findAll(meta.table.filter(meta.name == name))
     }
     
-    static func find(email email: String) -> [Person] {
+    static func findBy(email email: String) -> [Person] {
         return meta.findAll(meta.table.filter(meta.email == email))
     }
 }
@@ -99,5 +99,15 @@ public extension Person {
 public extension Person {
     func delete() {
         try! db.run(meta.query.delete())
+    }
+
+    mutating func update(name name: String?) -> Person {
+        self.name = name
+        return self
+    }
+
+    mutating func update(email email: String) -> Person {
+        self.email = email
+        return self
     }
 }

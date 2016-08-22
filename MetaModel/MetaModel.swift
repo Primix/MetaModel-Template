@@ -9,14 +9,16 @@
 import Foundation
 import SQLite
 
-let db = try! Connection("path/to/db.sqlite3")
+let path = NSSearchPathForDirectoriesInDomains(
+    .DocumentDirectory, .UserDomainMask, true
+).first! as String
 
-class MetaModel {
-    static func initialize() -> Bool {
+let db =  try! Connection("\(path)/db.sqlite3")
+
+public class MetaModel {
+    public static func initialize() {
         Person.meta.createTable()
-        return true
     }
 }
 
 
-let entry = MetaModel.initialize()

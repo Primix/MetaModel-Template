@@ -39,7 +39,7 @@ extension Person {
         static var query: QueryType { get { return meta.table.filter(meta.id == self.id) } }
         
         static func createTable() {
-            try! db.run(table.create { t in
+            try? db.run(table.create { t in
                 t.column(id, primaryKey: true)
                 t.column(name)
                 t.column(email, unique: true)
@@ -64,7 +64,7 @@ extension Person {
 
 }
 
-extension Person {
+public extension Person {
     static func all() -> [Person] {
         var result: [Person] = []
         for record in try! db.prepare(meta.table) {
@@ -79,7 +79,7 @@ extension Person {
     
     static func create(id: Int, name: String?, email: String) -> Person {
         let insert = meta.table.insert(meta.name <- name, meta.email <- email)
-        try! db.run(insert)
+        try? db.run(insert)
         return Person(id: id, name: name, email: email)
     }
     
@@ -96,7 +96,7 @@ extension Person {
     }
 }
 
-extension Person {
+public extension Person {
     func delete() {
         try! db.run(meta.query.delete())
     }

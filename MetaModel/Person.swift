@@ -35,6 +35,7 @@ extension Person {
         static let id = Expression<Int>("id")
         static let name = Expression<String?>("name")
         static let email = Expression<String>("email")
+        
         static var query: QueryType { get { return meta.table.filter(meta.id == self.id) } }
         
         static func createTable() {
@@ -92,5 +93,11 @@ extension Person {
     
     static func find(email email: String) -> [Person] {
         return meta.findAll(meta.table.filter(meta.email == email))
+    }
+}
+
+extension Person {
+    func delete() {
+        try! db.run(meta.query.delete())
     }
 }

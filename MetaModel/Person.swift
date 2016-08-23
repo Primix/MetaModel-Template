@@ -9,6 +9,10 @@
 import Foundation
 import SQLite
 
+public protocol Recordable {
+    init(record: SQLite.Row)
+}
+
 public struct Person {
     public let id: Int
     public var name: String? {
@@ -23,8 +27,8 @@ public struct Person {
     }
 }
 
-extension Person {
-    init(record: SQLite.Row) {
+extension Person: Recordable {
+    public init(record: SQLite.Row) {
         self.init(id: record[meta.id], name: record[meta.name], email: record[meta.email])
     }
 }
@@ -73,6 +77,10 @@ public extension Person {
         return result
     }
     
+    static func deleteAll() {
+        try? db.run(meta.table.delete())
+    }
+    
     static func count() -> Int {
         return db.scalar(meta.table.count)
     }
@@ -82,8 +90,11 @@ public extension Person {
         _ = try? db.run(insert)
         return Person(id: id, name: name, email: email)
     }
+    
+}
 
-    static func findBy(id id: Int) -> Person? {
+public extension Person {
+    static func find(id id: Int) -> Person? {
         return meta.findOne(meta.table.filter(meta.id == id))
     }
     

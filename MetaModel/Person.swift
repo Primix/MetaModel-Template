@@ -82,7 +82,7 @@ public extension Person {
     }
     
     static func create(id: Int, name: String?, email: String) -> Person {
-        let insert = meta.table.insert(meta.name <- name, meta.email <- email)
+        let insert = meta.table.insert(meta.id <- id, meta.name <- name, meta.email <- email)
         let _ = try? db.run(insert)
         return Person(id: id, name: name, email: email)
     }

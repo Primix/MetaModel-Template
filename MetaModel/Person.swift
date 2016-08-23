@@ -90,7 +90,7 @@ public extension Person {
 }
 
 public extension Person {
-    static func find(id id: Int) -> Person? {
+    static func findBy(id id: Int) -> Person? {
         return meta.findOne(meta.table.filter(meta.id == id))
     }
     

@@ -9,12 +9,17 @@
 import Foundation
 import SQLite
 
+public enum Order {
+    case DESC
+    case ASC
+}
+
 public protocol Recordable {
     init(record: SQLite.Row)
 }
 
 public class Relation<T: Recordable> {
-    var complete: Bool = false
+    private var complete: Bool = false
     var query: QueryType {
         didSet {
             complete = false
@@ -43,7 +48,7 @@ public class Relation<T: Recordable> {
         }
     }
 
-    var all: Relation<T> {
+    public var all: Relation<T> {
         get {
             return self
         }

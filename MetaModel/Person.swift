@@ -30,10 +30,11 @@ extension Person: Recordable {
 }
 
 extension Person {
-    var itself: QueryType { get { return meta.table.filter(meta.id == self.id) } }
+    static let table = Table("people")
+
+    var itself: QueryType { get { return Person.table.filter(meta.id == self.id) } }
 
     struct meta {
-        static let table = Table("people")
         static let id = Expression<Int>("id")
         static let name = Expression<String?>("name")
         static let email = Expression<String>("email")
@@ -51,15 +52,15 @@ extension Person {
 public extension Person {
 
     static func deleteAll() {
-        let _ = try? db.run(meta.table.delete())
+        let _ = try? db.run(Person.table.delete())
     }
     
     static func count() -> Int {
-        return db.scalar(meta.table.count)
+        return db.scalar(Person.table.count)
     }
     
     static func create(id: Int, name: String?, email: String) -> Person {
-        let insert = meta.table.insert(meta.id <- id, meta.name <- name, meta.email <- email)
+        let insert = Person.table.insert(meta.id <- id, meta.name <- name, meta.email <- email)
         let _ = try? db.run(insert)
         return Person(id: id, name: name, email: email)
     }
@@ -83,7 +84,7 @@ public extension Person {
     }
 
     static func findBy(id id: Int) -> Person? {
-        for record in try! db.prepare(meta.table.filter(meta.id == id)) {
+        for record in try! db.prepare(Person.table.filter(meta.id == id)) {
             return Person(record: record)
         }
         return nil
@@ -99,21 +100,49 @@ public extension Person {
         return result
     }
 
-    static var all: [Person] {
+    static var all: PersonRelation {
         get {
-            var result: [Person] = []
-            for record in try! db.prepare(meta.table) {
-                result.append(Person(record: record))
-            }
-            return result
+            return PersonRelation(query: Person.table)
         }
     }
 
-    static func findBy(name name: String) -> [Person] {
-        return findAll(meta.table.filter(meta.name == name))
+    static func findBy(name name: String) -> PersonRelation {
+        return PersonRelation(query: Person.table.filter(meta.name == name))
     }
     
-    static func findBy(email email: String) -> [Person] {
-        return findAll(meta.table.filter(meta.email == email))
+    static func findBy(email email: String) -> PersonRelation {
+        return PersonRelation(query: Person.table.filter(meta.email == email))
     }
+
+    static func limit(length: Int, offset: Int = 0) -> PersonRelation {
+        return PersonRelation(query: Person.table.limit(length, offset: offset))
+    }
+}
+
+public class PersonRelation: Relation<Person> {
+    override init(query: QueryType) {
+        super.init(query: query)
+    }
+
+    var all: PersonRelation {
+        get {
+            return self
+        }
+    }
+
+    func findBy(name name: String) -> Self {
+        query = query.filter(Person.meta.name == name)
+        return self
+    }
+
+    func findBy(email email: String) -> Self {
+        query = query.filter(Person.meta.email == email)
+        return self
+    }
+
+    func limit(length: Int, offset: Int = 0) -> Self {
+        query = query.limit(length, offset: offset)
+        return self
+    }
+
 }

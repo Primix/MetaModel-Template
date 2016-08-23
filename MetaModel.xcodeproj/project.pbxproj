@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728FA3051D6C0EBF00F2E4CF /* Relation.swift */; };
-		728FA3081D6C278000F2E4CF /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728FA3071D6C278000F2E4CF /* Query.swift */; };
 		72FC2C671D6AAE2F00DEB0E0 /* MetaModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72FC2C661D6AAE2F00DEB0E0 /* MetaModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72FC2C8A1D6AB2C600DEB0E0 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FC2C891D6AB2C600DEB0E0 /* Person.swift */; };
 		72FC2C931D6AB2ED00DEB0E0 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72FC2C791D6AAF0F00DEB0E0 /* SQLite.framework */; };
@@ -69,7 +68,6 @@
 
 /* Begin PBXFileReference section */
 		728FA3051D6C0EBF00F2E4CF /* Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relation.swift; sourceTree = "<group>"; };
-		728FA3071D6C278000F2E4CF /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		72FC2C631D6AAE2F00DEB0E0 /* MetaModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MetaModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72FC2C661D6AAE2F00DEB0E0 /* MetaModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetaModel.h; sourceTree = "<group>"; };
 		72FC2C681D6AAE2F00DEB0E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -90,13 +88,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		722389AB1D6C805D007D82D9 /* SQLite */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = SQLite;
-			sourceTree = "<group>";
-		};
 		72FC2C591D6AAE2F00DEB0E0 = {
 			isa = PBXGroup;
 			children = (
@@ -118,11 +109,9 @@
 		72FC2C651D6AAE2F00DEB0E0 /* MetaModel */ = {
 			isa = PBXGroup;
 			children = (
-				722389AB1D6C805D007D82D9 /* SQLite */,
 				72FC2C941D6AB3ED00DEB0E0 /* MetaModel.swift */,
 				72FC2C891D6AB2C600DEB0E0 /* Person.swift */,
 				728FA3051D6C0EBF00F2E4CF /* Relation.swift */,
-				728FA3071D6C278000F2E4CF /* Query.swift */,
 			);
 			path = MetaModel;
 			sourceTree = "<group>";
@@ -287,7 +276,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				728FA3081D6C278000F2E4CF /* Query.swift in Sources */,
 				72FC2C951D6AB3ED00DEB0E0 /* MetaModel.swift in Sources */,
 				728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */,
 				72FC2C8A1D6AB2C600DEB0E0 /* Person.swift in Sources */,

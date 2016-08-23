@@ -9,6 +9,11 @@
 import Foundation
 import SQLite
 
+
+public protocol Recordable {
+    init(record: SQLite.Row)
+}
+
 //public struct Relation<T: Recordable> {
 //    
 //    let db: Connection

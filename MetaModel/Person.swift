@@ -9,10 +9,6 @@
 import Foundation
 import SQLite
 
-public protocol Recordable {
-    init(record: SQLite.Row)
-}
-
 public struct Person {
     public let id: Int
     public var name: String? {

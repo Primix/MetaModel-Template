@@ -43,12 +43,17 @@ public class Relation<T: Recordable> {
         }
     }
 
+    var all: Relation<T> {
+        get {
+            return self
+        }
+    }
+
     public var first: T {
         get {
             return result[0]
         }
     }
-
 
 }
 

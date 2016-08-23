@@ -124,23 +124,17 @@ public class PersonRelation: Relation<Person> {
         super.init(query: query)
     }
 
-    var all: PersonRelation {
-        get {
-            return self
-        }
-    }
-
-    func findBy(name name: String) -> Self {
+    public func findBy(name name: String) -> Self {
         query = query.filter(Person.meta.name == name)
         return self
     }
 
-    func findBy(email email: String) -> Self {
+    public func findBy(email email: String) -> Self {
         query = query.filter(Person.meta.email == email)
         return self
     }
 
-    func limit(length: Int, offset: Int = 0) -> Self {
+    public func limit(length: Int, offset: Int = 0) -> Self {
         query = query.limit(length, offset: offset)
         return self
     }

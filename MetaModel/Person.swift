@@ -81,28 +81,22 @@ public extension Person {
         self.email = email
         return self
     }
-}
 
-public extension Person {
-
-
-    static private func findOne(query: QueryType) -> Person? {
-        for record in try! db.prepare(query) {
+    static func findBy(id id: Int) -> Person? {
+        for record in try! db.prepare(meta.table.filter(meta.id == id)) {
             return Person(record: record)
         }
         return nil
     }
+}
 
+public extension Person {
     static private func findAll(query: QueryType) -> [Person] {
         var result: [Person] = []
         for record in try! db.prepare(query) {
             result.append(Person(record: record))
         }
         return result
-    }
-
-    static func findBy(id id: Int) -> Person? {
-        return findOne(meta.table.filter(meta.id == id))
     }
 
     static var all: [Person] {

@@ -13,12 +13,12 @@ public struct Person {
     public let id: Int
     public var name: String? {
         didSet {
-            try! db.run(meta.query.update(meta.name <- name))
+            try! db.run(itself.update(meta.name <- name))
         }
     }
     public var email: String {
         didSet {
-            try! db.run(meta.query.update(meta.email <- email))
+            try! db.run(itself.update(meta.email <- email))
         }
     }
 }
@@ -30,14 +30,14 @@ extension Person: Recordable {
 }
 
 extension Person {
+    var itself: QueryType { get { return meta.table.filter(meta.id == self.id) } }
+
     struct meta {
         static let table = Table("people")
         static let id = Expression<Int>("id")
         static let name = Expression<String?>("name")
         static let email = Expression<String>("email")
-        
-        static var query: QueryType { get { return meta.table.filter(meta.id == self.id) } }
-        
+
         static func createTable() {
             let _ = try? db.run(table.create { t in
                 t.column(id, primaryKey: true)
@@ -45,34 +45,11 @@ extension Person {
                 t.column(email, unique: true)
             })
         }
-        
-        static func findOne(query: QueryType) -> Person? {
-            for record in try! db.prepare(query) {
-                return Person(record: record)
-            }
-            return nil
-        }
-        
-        static func findAll(query: QueryType) -> [Person] {
-            var result: [Person] = []
-            for record in try! db.prepare(query) {
-                result.append(Person(record: record))
-            }
-            return result
-        }
     }
-
 }
 
 public extension Person {
-    static func all() -> [Person] {
-        var result: [Person] = []
-        for record in try! db.prepare(meta.table) {
-            result.append(Person(record: record))
-        }
-        return result
-    }
-    
+
     static func deleteAll() {
         let _ = try? db.run(meta.table.delete())
     }
@@ -89,23 +66,10 @@ public extension Person {
     
 }
 
-public extension Person {
-    static func findBy(id id: Int) -> Person? {
-        return meta.findOne(meta.table.filter(meta.id == id))
-    }
-    
-    static func findBy(name name: String) -> [Person] {
-        return meta.findAll(meta.table.filter(meta.name == name))
-    }
-    
-    static func findBy(email email: String) -> [Person] {
-        return meta.findAll(meta.table.filter(meta.email == email))
-    }
-}
 
 public extension Person {
     func delete() {
-        try! db.run(meta.query.delete())
+        try! db.run(itself.delete())
     }
 
     mutating func update(name name: String?) -> Person {
@@ -116,5 +80,46 @@ public extension Person {
     mutating func update(email email: String) -> Person {
         self.email = email
         return self
+    }
+}
+
+public extension Person {
+
+
+    static private func findOne(query: QueryType) -> Person? {
+        for record in try! db.prepare(query) {
+            return Person(record: record)
+        }
+        return nil
+    }
+
+    static private func findAll(query: QueryType) -> [Person] {
+        var result: [Person] = []
+        for record in try! db.prepare(query) {
+            result.append(Person(record: record))
+        }
+        return result
+    }
+
+    static func findBy(id id: Int) -> Person? {
+        return findOne(meta.table.filter(meta.id == id))
+    }
+
+    static var all: [Person] {
+        get {
+            var result: [Person] = []
+            for record in try! db.prepare(meta.table) {
+                result.append(Person(record: record))
+            }
+            return result
+        }
+    }
+
+    static func findBy(name name: String) -> [Person] {
+        return findAll(meta.table.filter(meta.name == name))
+    }
+    
+    static func findBy(email email: String) -> [Person] {
+        return findAll(meta.table.filter(meta.email == email))
     }
 }

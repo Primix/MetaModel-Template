@@ -9,12 +9,6 @@
 import Foundation
 import SQLite
 
-public enum PersonAttribute {
-    case id
-    case name
-    case email
-}
-
 public struct Person {
     public let id: Int
     public var name: String? {
@@ -37,9 +31,10 @@ extension Person: Recordable {
 
 extension Person {
     static let table = Table("people")
-    static let id = Expression<Int>("id")
-    static let name = Expression<String?>("name")
-    static let email = Expression<String>("email")
+
+    public static let id = Expression<Int>("id")
+    public static let name = Expression<String?>("name")
+    public static let email = Expression<String>("email")
 
     var itself: QueryType { get { return Person.table.filter(Person.id == self.id) } }
 
@@ -121,7 +116,7 @@ public extension Person {
         return PersonRelation().limit(length, offset: offset)
     }
 
-    static func group(params: [PersonAttribute: Order]) -> PersonRelation {
+    static func group(params: Expressible...) -> PersonRelation {
         return PersonRelation().group(params)
     }
 }
@@ -146,27 +141,12 @@ public class PersonRelation: Relation<Person> {
         return self
     }
 
-    func group(params: [PersonAttribute: Order]) -> Self {
-        var expressions: [Expressible] = []
-        for param in params {
-            switch (param.0, param.1) {
-            case (.id, .DESC):
-                expressions.append(Person.id.desc)
-            case (.id, .ASC):
-                expressions.append(Person.id.asc)
-            case (.name, .DESC):
-                expressions.append(Person.name.desc)
-            case (.name, .ASC):
-                expressions.append(Person.name.asc)
-            case (.email, .DESC):
-                expressions.append(Person.email.desc)
-            case (.email, .ASC):
-                expressions.append(Person.email.asc)
-            default:
-                break
-            }
-        }
-//        query = query.filter(<#T##predicate: Expression<Bool>##Expression<Bool>#>)
+    public func group(params: Expressible...) -> Self {
+        return group(params)
+    }
+
+    public func group(params: [Expressible]) -> Self {
+        query = query.group(params)
         return self
     }
 

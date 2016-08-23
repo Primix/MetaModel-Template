@@ -20,5 +20,3 @@ public class MetaModel {
         Person.createTable()
     }
 }
-
-

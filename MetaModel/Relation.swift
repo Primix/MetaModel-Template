@@ -9,11 +9,6 @@
 import Foundation
 import SQLite
 
-public enum Order {
-    case DESC
-    case ASC
-}
-
 public protocol Recordable {
     init(record: SQLite.Row)
 }

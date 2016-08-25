@@ -9,6 +9,8 @@
 import Foundation
 import SQLite
 
+let TransientID = -1
+
 public struct Person {
     public let id: Int
     public var name: String? {
@@ -20,6 +22,12 @@ public struct Person {
         didSet {
             try! db.run(itself.update(Person.email <- email))
         }
+    }
+}
+
+extension Person {
+    init(name: String?, email: String) {
+        self.init(id: TransientID, name: name, email: email)
     }
 }
 
@@ -57,20 +65,23 @@ public extension Person {
         return db.scalar(Person.table.count)
     }
     
+    static func new(name: String?, email: String) -> Person {
+        return Person(id: TransientID, name: name, email: email)
+    }
+    
     static func create(id: Int, name: String?, email: String) -> Person {
         let insert = Person.table.insert(Person.id <- id, Person.name <- name, Person.email <- email)
         let _ = try? db.run(insert)
         return Person(id: id, name: name, email: email)
     }
-    
-}
 
+}
 
 public extension Person {
     func delete() {
         try! db.run(itself.delete())
     }
-
+    
     mutating func update(name name: String?) -> Person {
         self.name = name
         return self
@@ -116,9 +127,6 @@ public extension Person {
         return PersonRelation().limit(length, offset: offset)
     }
 
-    static func group(params: Expressible...) -> PersonRelation {
-        return PersonRelation().group(params)
-    }
 }
 
 public class PersonRelation: Relation<Person> {
@@ -138,15 +146,6 @@ public class PersonRelation: Relation<Person> {
 
     public func limit(length: Int, offset: Int = 0) -> Self {
         query = query.limit(length, offset: offset)
-        return self
-    }
-
-    public func group(params: Expressible...) -> Self {
-        return group(params)
-    }
-
-    public func group(params: [Expressible]) -> Self {
-        query = query.group(params)
         return self
     }
 

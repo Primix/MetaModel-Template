@@ -88,6 +88,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		72590A751D6EF88900BF91F7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				72FC2C891D6AB2C600DEB0E0 /* Person.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		72FC2C591D6AAE2F00DEB0E0 = {
 			isa = PBXGroup;
 			children = (
@@ -109,8 +117,8 @@
 		72FC2C651D6AAE2F00DEB0E0 /* MetaModel */ = {
 			isa = PBXGroup;
 			children = (
+				72590A751D6EF88900BF91F7 /* Models */,
 				72FC2C941D6AB3ED00DEB0E0 /* MetaModel.swift */,
-				72FC2C891D6AB2C600DEB0E0 /* Person.swift */,
 				728FA3051D6C0EBF00F2E4CF /* Relation.swift */,
 			);
 			path = MetaModel;

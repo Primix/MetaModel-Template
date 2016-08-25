@@ -20,3 +20,6 @@ public class MetaModel {
         Person.createTable()
     }
 }
+
+let TransientID = -1
+

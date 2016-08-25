@@ -9,8 +9,6 @@
 import Foundation
 import SQLite
 
-let TransientID = -1
-
 public struct Person {
     public let id: Int
     public var name: String? {

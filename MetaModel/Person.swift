@@ -113,11 +113,11 @@ public extension Person {
         return PersonRelation().findBy(email: email).first
     }
 
-    static func limit(length: Int, offset: Int = 0) -> PersonRelation {
+    static func limit(length: UInt, offset: UInt = 0) -> PersonRelation {
         return PersonRelation().limit(length, offset: offset)
     }
 
-    static func offset(offset: Int) -> PersonRelation {
+    static func offset(offset: UInt) -> PersonRelation {
         return PersonRelation().offset(offset)
     }
 
@@ -159,12 +159,12 @@ public class PersonRelation: Relation<Person> {
         return self.filter([.email: email]).limit(1)
     }
 
-    public func offset(offset: Int) -> Self {
+    public func offset(offset: UInt) -> Self {
         self.offset = "OFFSET \(offset)"
         return self
     }
 
-    public func limit(length: Int, offset: Int = 0) -> Self {
+    public func limit(length: UInt, offset: UInt = 0) -> Self {
         self.limit = "LIMIT \(length)"
         if offset != 0 {
             self.offset = "OFFSET \(offset)"

@@ -11,26 +11,29 @@ import SQLite
 
 public struct Person {
     public let id: Int
-    public var name: String? {
-        didSet {
-            try! db.run(itself.update(Person.name <- name))
-        }
-    }
-    public var email: String {
-        didSet {
-            try! db.run(itself.update(Person.email <- email))
-        }
+    public var name: String?
+    public var email: String
+
+    public enum Represent: String {
+        case id = "id"
+        case name = "name"
+        case email = "email"
     }
 }
 
 extension Person: Recordable {
-    public init(record: SQLite.Row) {
-        self.init(id: record[Person.id], name: record[Person.name], email: record[Person.email])
+    public init(values: Array<Optional<Binding>>) {
+        let id: Int64 = values[0] as! Int64
+        let name: String? = values[1] as? String
+        let email: String = values[2] as! String
+        self.init(id: Int(id), name: name, email: email)
     }
 }
 
 extension Person {
     static let table = Table("people")
+
+    static let tableName = "people"
 
     public static let id = Expression<Int>("id")
     public static let name = Expression<String?>("name")
@@ -81,22 +84,22 @@ public extension Person {
         return self
     }
 
-    static func findBy(id id: Int) -> Person? {
-        for record in try! db.prepare(Person.table.filter(Person.id == id)) {
-            return Person(record: record)
-        }
-        return nil
-    }
+//    static func findBy(id id: Int) -> Person? {
+//        for record in try! db.prepare(Person.table.filter(Person.id == id)) {
+//            return Person(record: record)
+//        }
+//        return nil
+//    }
 }
 
 public extension Person {
-    static private func findAll(query: QueryType) -> [Person] {
-        var result: [Person] = []
-        for record in try! db.prepare(query) {
-            result.append(Person(record: record))
-        }
-        return result
-    }
+//    static private func findAll(query: QueryType) -> [Person] {
+//        var result: [Person] = []
+//        for record in try! db.prepare(query) {
+//            result.append(Person(record: record))
+//        }
+//        return result
+//    }
 
     static var all: PersonRelation {
         get {
@@ -116,38 +119,47 @@ public extension Person {
         return PersonRelation().limit(length, offset: offset)
     }
 
-    static func group(params: Expressible...) -> PersonRelation {
-        return PersonRelation().group(params)
+    static func offset(offset: Int) -> PersonRelation {
+        return PersonRelation().offset(offset)
+    }
+
+    static func groupBy(column: Person.Represent, asc: Bool = true) -> PersonRelation {
+        return PersonRelation().groupBy(column, asc: asc)
     }
 }
 
 public class PersonRelation: Relation<Person> {
-    init() {
-        super.init(query: Person.table)
+    override init() {
+        super.init()
+        self.select = "SELECT * FROM \(Person.tableName)"
     }
 
     public func findBy(name name: String) -> Self {
-        query = query.filter(Person.name == name)
+        self.filter.append("name = \"\(name)\"")
         return self
     }
 
     public func findBy(email email: String) -> Self {
-        query = query.filter(Person.email == email)
+        self.filter.append("email = \"\(email)\"")
         return self
     }
 
     public func limit(length: Int, offset: Int = 0) -> Self {
-        query = query.limit(length, offset: offset)
+        self.limit = "LIMIT \(length)"
+        self.offset = "OFFSET \(offset)"
         return self
     }
 
-    public func group(params: Expressible...) -> Self {
-        return group(params)
+    public func offset(offset: Int) -> Self {
+        self.offset = "OFFSET \(offset)"
+        return self
     }
 
-    public func group(params: [Expressible]) -> Self {
-        query = query.group(params)
+    public func groupBy(column: Person.Represent, asc: Bool = true) -> Self {
+        self.group.append("\(column.rawValue) \(asc ? "ASC" : "DESC")")
         return self
     }
 
 }
+
+

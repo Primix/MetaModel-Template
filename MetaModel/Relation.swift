@@ -10,32 +10,66 @@ import Foundation
 import SQLite
 
 public protocol Recordable {
-    init(record: SQLite.Row)
+    init(values: Array<Optional<Binding>>)
 }
 
 public class Relation<T: Recordable> {
     private var complete: Bool = false
-    var query: QueryType {
+    var query: String {
+        get {
+            let selectClouse = select
+            let whereClouse = filter.count == 0 ? "" : "WHERE \(filter.joinWithSeparator(" AND "))"
+            let result = "\(selectClouse) \(whereClouse) \(limit) \(offset)"
+            return result
+        }
+    }
+
+    var select: String = "" {
         didSet {
             complete = false
         }
     }
+
+    var filter: [String] = [] {
+        didSet {
+            complete = false
+        }
+    }
+
+    var group: [String] = [] {
+        didSet {
+            complete = false
+        }
+    }
+
+    var limit: String = "" {
+        didSet {
+            complete = false
+        }
+    }
+
+    var offset: String = "" {
+        didSet {
+            complete = false
+        }
+    }
+
     var result: [T] {
         get {
             var models: [T] = []
             if !complete {
                 complete = true
-                for record in try! db.prepare(query) {
-                    models.append(T(record: record))
+                for values in try! db.prepare(query) {
+                    models.append(T(values: values))
                 }
             }
             return models
         }
     }
 
-    init(query: QueryType) {
-        self.query = query
-    }
+//    init(query: String) {
+//        self.query = query
+//    }
 
     public subscript(index: Int) -> T {
         get {

@@ -17,5 +17,26 @@ let db =  try! Connection("\(path)/db.sqlite3")
 
 public class MetaModel {
     public static func initialize() {
+        Person.createTable()
     }
+}
+
+func executeSQL(sql: String) -> Statement? {
+    print("MetaModel: \(sql)")
+    do {
+        return try db.run(sql)
+    } catch {
+
+    }
+    return nil
+}
+
+func executeQuery(sql: String) -> Statement? {
+    print("MetaModel: \(sql)")
+    do {
+        return try db.prepare(sql)
+    } catch {
+
+    }
+    return nil
 }

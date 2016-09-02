@@ -88,23 +88,29 @@ public extension Person {
 //        for record in try! db.prepare(Person.table.filter(Person.id == id)) {
 //            return Person(record: record)
 //        }
-//        return nil
+//        return PersonRelation
 //    }
 }
 
 public extension Person {
     static var all: PersonRelation {
-        get {
-            return PersonRelation()
-        }
+        get { return PersonRelation() }
     }
 
-    static func findBy(name name: String) -> PersonRelation {
-        return PersonRelation().findBy(name: name)
+    static func find(id: Int) -> Person? {
+        return PersonRelation().find(id).first
+    }
+
+    static func findBy(id id: Int) -> Person? {
+        return PersonRelation().findBy(id: id).first
+    }
+
+    static func findBy(name name: String) -> Person? {
+        return PersonRelation().findBy(name: name).first
     }
     
-    static func findBy(email email: String) -> PersonRelation {
-        return PersonRelation().findBy(email: email)
+    static func findBy(email email: String) -> Person? {
+        return PersonRelation().findBy(email: email).first
     }
 
     static func limit(length: Int, offset: Int = 0) -> PersonRelation {
@@ -130,24 +136,39 @@ public class PersonRelation: Relation<Person> {
         self.select = "SELECT \(Person.tableName.quotes).* FROM \(Person.tableName.quotes)"
     }
 
-    public func findBy(name name: String) -> Self {
-        self.filter.append("name = \(name.quotes)")
+    public func filter(conditions: [Person.Represent: Any]) -> Self {
+        for (column, value) in conditions {
+            self.filter.append("\(column) = \"\(value)\"")
+        }
         return self
     }
 
+    public func find(id: Int) -> Self {
+        return self.findBy(id: id)
+    }
+
+    public func findBy(id id: Int) -> Self {
+        return self.filter([.id: id]).limit(1)
+    }
+
+    public func findBy(name name: String) -> Self {
+        return self.filter([.name: name]).limit(1)
+    }
+
     public func findBy(email email: String) -> Self {
-        self.filter.append("email = \(email.quotes)")
+        return self.filter([.email: email]).limit(1)
+    }
+
+    public func offset(offset: Int) -> Self {
+        self.offset = "OFFSET \(offset)"
         return self
     }
 
     public func limit(length: Int, offset: Int = 0) -> Self {
         self.limit = "LIMIT \(length)"
-        self.offset = "OFFSET \(offset)"
-        return self
-    }
-
-    public func offset(offset: Int) -> Self {
-        self.offset = "OFFSET \(offset)"
+        if offset != 0 {
+            self.offset = "OFFSET \(offset)"
+        }
         return self
     }
 

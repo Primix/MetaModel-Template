@@ -80,9 +80,9 @@ public class Relation<T: Recordable> {
         }
     }
 
-    public var first: T {
+    public var first: T? {
         get {
-            return result[0]
+            return result.first
         }
     }
 

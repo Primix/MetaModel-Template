@@ -19,50 +19,25 @@ public class Relation<T: Recordable> {
         get {
             let selectClouse = select
             let whereClouse = filter.count == 0 ? "" : "WHERE \(filter.joinWithSeparator(" AND "))"
-            let result = "\(selectClouse) \(whereClouse) \(limit) \(offset)"
+            let groupClouse = group.count == 0 ? "" : "GROUP BY \(group.joinWithSeparator(", "))"
+            let result = "\(selectClouse) \(whereClouse) \(groupClouse) \(limit) \(offset)"
             return result
         }
     }
 
-    var select: String = "" {
-        didSet {
-            complete = false
-        }
-    }
-
-    var filter: [String] = [] {
-        didSet {
-            complete = false
-        }
-    }
-
-    var group: [String] = [] {
-        didSet {
-            complete = false
-        }
-    }
-
-    var limit: String = "" {
-        didSet {
-            complete = false
-        }
-    }
-
-    var offset: String = "" {
-        didSet {
-            complete = false
-        }
-    }
+    var select: String = ""
+    var filter: [String] = []
+    var order: [String] = []
+    var group: [String] = []
+    var limit: String = ""
+    var offset: String = ""
 
     var result: [T] {
         get {
             var models: [T] = []
-            if !complete {
-                complete = true
-                guard let stmt = executeQuery(query) else { return models }
-                for values in stmt {
-                    models.append(T(values: values))
-                }
+            guard let stmt = executeQuery(query) else { return models }
+            for values in stmt {
+                models.append(T(values: values))
             }
             return models
         }

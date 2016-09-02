@@ -83,13 +83,6 @@ public extension Person {
         self.email = email
         return self
     }
-
-//    static func findBy(id id: Int) -> Person? {
-//        for record in try! db.prepare(Person.table.filter(Person.id == id)) {
-//            return Person(record: record)
-//        }
-//        return PersonRelation
-//    }
 }
 
 public extension Person {
@@ -113,6 +106,14 @@ public extension Person {
         return PersonRelation().findBy(email: email).first
     }
 
+    static func filter(column: Person.Represent, value: Any) -> PersonRelation {
+        return PersonRelation().filter([column: value])
+    }
+
+    static func filter(conditions: [Person.Represent: Any]) -> PersonRelation {
+        return PersonRelation().filter(conditions)
+    }
+
     static func limit(length: UInt, offset: UInt = 0) -> PersonRelation {
         return PersonRelation().limit(length, offset: offset)
     }
@@ -125,7 +126,7 @@ public extension Person {
         return PersonRelation().groupBy(column)
     }
 
-    static func groupBy(column: Person.Represent, asc: Bool = true) -> PersonRelation {
+    static func groupBy(column: Person.Represent, asc: Bool) -> PersonRelation {
         return PersonRelation().groupBy(column, asc: asc)
     }
 }
@@ -138,7 +139,33 @@ public class PersonRelation: Relation<Person> {
 
     public func filter(conditions: [Person.Represent: Any]) -> Self {
         for (column, value) in conditions {
-            self.filter.append("\(column) = \"\(value)\"")
+            let columnSQL = "\(Person.tableName.quotes).\(column.rawValue.quotes)"
+
+            func filterByEqual(value: Any) {
+                self.filter.append("\(columnSQL) = \(value)")
+            }
+
+            func filterByIn(value: [String]) {
+                self.filter.append("\(columnSQL) IN (\(value.joinWithSeparator(", ")))")
+            }
+
+            if let value = value as? String {
+                filterByEqual(value.quotes)
+            } else if let value = value as? Int {
+                filterByEqual(value)
+            } else if let value = value as? Double {
+                filterByEqual(value)
+            } else if let value = value as? [String] {
+                filterByIn(value.map { $0.quotes })
+            } else if let value = value as? [Int] {
+                filterByIn(value.map { $0.description })
+            } else if let value = value as? [Double] {
+                filterByIn(value.map { $0.description })
+            } else {
+                let valueMirror = Mirror(reflecting: value)
+                print("!!!: WRONG TYPE \(valueMirror.subjectType)")
+            }
+
         }
         return self
     }

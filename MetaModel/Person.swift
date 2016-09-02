@@ -45,7 +45,7 @@ extension Person {
         let _ = try? db.run(table.create { t in
             t.column(id, primaryKey: true)
             t.column(name)
-            t.column(email, unique: true)
+            t.column(email)
         })
     }
 }
@@ -93,14 +93,6 @@ public extension Person {
 }
 
 public extension Person {
-//    static private func findAll(query: QueryType) -> [Person] {
-//        var result: [Person] = []
-//        for record in try! db.prepare(query) {
-//            result.append(Person(record: record))
-//        }
-//        return result
-//    }
-
     static var all: PersonRelation {
         get {
             return PersonRelation()
@@ -123,6 +115,10 @@ public extension Person {
         return PersonRelation().offset(offset)
     }
 
+    static func groupBy(column: Person.Represent) -> PersonRelation {
+        return PersonRelation().groupBy(column)
+    }
+
     static func groupBy(column: Person.Represent, asc: Bool = true) -> PersonRelation {
         return PersonRelation().groupBy(column, asc: asc)
     }
@@ -131,16 +127,16 @@ public extension Person {
 public class PersonRelation: Relation<Person> {
     override init() {
         super.init()
-        self.select = "SELECT * FROM \(Person.tableName)"
+        self.select = "SELECT \(Person.tableName.quotes).* FROM \(Person.tableName.quotes)"
     }
 
     public func findBy(name name: String) -> Self {
-        self.filter.append("name = \"\(name)\"")
+        self.filter.append("name = \(name.quotes)")
         return self
     }
 
     public func findBy(email email: String) -> Self {
-        self.filter.append("email = \"\(email)\"")
+        self.filter.append("email = \(email.quotes)")
         return self
     }
 
@@ -155,8 +151,13 @@ public class PersonRelation: Relation<Person> {
         return self
     }
 
-    public func groupBy(column: Person.Represent, asc: Bool = true) -> Self {
-        self.group.append("\(column.rawValue) \(asc ? "ASC" : "DESC")")
+    public func groupBy(column: Person.Represent) -> Self {
+        self.group.append("\(Person.tableName.quotes).\(column.rawValue.quotes)")
+        return self
+    }
+
+    public func groupBy(column: Person.Represent, asc: Bool) -> Self {
+        self.group.append("\(Person.tableName.quotes).\(column.rawValue.quotes) \(asc ? "ASC".quotes : "DESC".quotes)")
         return self
     }
 

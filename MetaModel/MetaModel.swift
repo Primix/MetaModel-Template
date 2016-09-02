@@ -13,7 +13,7 @@ let path = NSSearchPathForDirectoriesInDomains(
     .DocumentDirectory, .UserDomainMask, true
 ).first! as String
 
-let db =  try! Connection("\(path)/db.sqlite3")
+let db =  try! Connection("\(path)/db1.sqlite3")
 
 public class MetaModel {
     public static func initialize() {
@@ -22,7 +22,7 @@ public class MetaModel {
 }
 
 func executeSQL(sql: String) -> Statement? {
-    print("MetaModel: \(sql)")
+    print("-> MetaModel SQL: \(sql)")
     do {
         return try db.run(sql)
     } catch {
@@ -32,11 +32,21 @@ func executeSQL(sql: String) -> Statement? {
 }
 
 func executeQuery(sql: String) -> Statement? {
-    print("MetaModel: \(sql)")
+    print("-> Begin Transaction")
+    defer { print("-> Commit Transaction") }
+    print("\tSQL \(sql)")
     do {
         return try db.prepare(sql)
     } catch {
 
     }
     return nil
+}
+
+extension String {
+    var quotes: String {
+        get {
+            return "\"\(self)\""
+        }
+    }
 }

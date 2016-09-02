@@ -59,17 +59,14 @@ public class Relation<T: Recordable> {
             var models: [T] = []
             if !complete {
                 complete = true
-                for values in try! db.prepare(query) {
+                guard let stmt = executeQuery(query) else { return models }
+                for values in stmt {
                     models.append(T(values: values))
                 }
             }
             return models
         }
     }
-
-//    init(query: String) {
-//        self.query = query
-//    }
 
     public subscript(index: Int) -> T {
         get {

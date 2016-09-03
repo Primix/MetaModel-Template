@@ -28,8 +28,10 @@ public class Relation<T: Recordable> {
             let whereClouse = filter.count == 0 ? "" : "WHERE \(filter.joinWithSeparator(" AND "))"
             let groupClouse = group.count == 0 ? "" : "GROUP BY \(group.joinWithSeparator(", "))"
             let orderClouse = order.count == 0 ? "" : "ORDER BY \(order.joinWithSeparator(", "))"
-            let result = "\(selectClouse) \(whereClouse) \(groupClouse) \(limit) \(offset)"
-            return result
+
+            return [selectClouse, whereClouse, groupClouse, orderClouse, limit, offset].filter {
+                $0.characters.count > 0
+            }.joinWithSeparator(" ")
         }
     }
 

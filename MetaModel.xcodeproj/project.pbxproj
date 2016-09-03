@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94A1D7AC8A600E722DF /* Unwrapped.swift */; };
 		728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728FA3051D6C0EBF00F2E4CF /* Relation.swift */; };
 		72FC2C671D6AAE2F00DEB0E0 /* MetaModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72FC2C661D6AAE2F00DEB0E0 /* MetaModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72FC2C8A1D6AB2C600DEB0E0 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FC2C891D6AB2C600DEB0E0 /* Person.swift */; };
@@ -22,51 +23,10 @@
 			remoteGlobalIDString = EE247AD31C3F04ED00AE3E12;
 			remoteInfo = "SQLite iOS";
 		};
-		72FC2C7A1D6AAF0F00DEB0E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 72FC2C6E1D6AAF0F00DEB0E0 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EE247ADD1C3F04ED00AE3E12;
-			remoteInfo = "SQLiteTests iOS";
-		};
-		72FC2C7C1D6AAF0F00DEB0E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 72FC2C6E1D6AAF0F00DEB0E0 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EE247B3C1C3F3ED000AE3E12;
-			remoteInfo = "SQLite Mac";
-		};
-		72FC2C7E1D6AAF0F00DEB0E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 72FC2C6E1D6AAF0F00DEB0E0 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EE247B451C3F3ED000AE3E12;
-			remoteInfo = "SQLiteTests Mac";
-		};
-		72FC2C801D6AAF0F00DEB0E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 72FC2C6E1D6AAF0F00DEB0E0 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 03A65E5A1C6BB0F50062603F;
-			remoteInfo = "SQLite tvOS";
-		};
-		72FC2C821D6AAF0F00DEB0E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 72FC2C6E1D6AAF0F00DEB0E0 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 03A65E631C6BB0F60062603F;
-			remoteInfo = "SQLiteTests tvOS";
-		};
-		72FC2C841D6AAF0F00DEB0E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 72FC2C6E1D6AAF0F00DEB0E0 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A121AC451CA35C79005A31D1;
-			remoteInfo = "SQLite watchOS";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		726AA94A1D7AC8A600E722DF /* Unwrapped.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unwrapped.swift; sourceTree = "<group>"; };
 		728FA3051D6C0EBF00F2E4CF /* Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relation.swift; sourceTree = "<group>"; };
 		72FC2C631D6AAE2F00DEB0E0 /* MetaModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MetaModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72FC2C661D6AAE2F00DEB0E0 /* MetaModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetaModel.h; sourceTree = "<group>"; };
@@ -120,6 +80,7 @@
 				72590A751D6EF88900BF91F7 /* Models */,
 				72FC2C941D6AB3ED00DEB0E0 /* MetaModel.swift */,
 				728FA3051D6C0EBF00F2E4CF /* Relation.swift */,
+				726AA94A1D7AC8A600E722DF /* Unwrapped.swift */,
 			);
 			path = MetaModel;
 			sourceTree = "<group>";
@@ -128,12 +89,6 @@
 			isa = PBXGroup;
 			children = (
 				72FC2C791D6AAF0F00DEB0E0 /* SQLite.framework */,
-				72FC2C7B1D6AAF0F00DEB0E0 /* SQLiteTests iOS.xctest */,
-				72FC2C7D1D6AAF0F00DEB0E0 /* SQLite.framework */,
-				72FC2C7F1D6AAF0F00DEB0E0 /* SQLiteTests Mac.xctest */,
-				72FC2C811D6AAF0F00DEB0E0 /* SQLite.framework */,
-				72FC2C831D6AAF0F00DEB0E0 /* SQLiteTests tvOS.xctest */,
-				72FC2C851D6AAF0F00DEB0E0 /* SQLite.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -225,48 +180,6 @@
 			remoteRef = 72FC2C781D6AAF0F00DEB0E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		72FC2C7B1D6AAF0F00DEB0E0 /* SQLiteTests iOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SQLiteTests iOS.xctest";
-			remoteRef = 72FC2C7A1D6AAF0F00DEB0E0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		72FC2C7D1D6AAF0F00DEB0E0 /* SQLite.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SQLite.framework;
-			remoteRef = 72FC2C7C1D6AAF0F00DEB0E0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		72FC2C7F1D6AAF0F00DEB0E0 /* SQLiteTests Mac.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SQLiteTests Mac.xctest";
-			remoteRef = 72FC2C7E1D6AAF0F00DEB0E0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		72FC2C811D6AAF0F00DEB0E0 /* SQLite.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SQLite.framework;
-			remoteRef = 72FC2C801D6AAF0F00DEB0E0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		72FC2C831D6AAF0F00DEB0E0 /* SQLiteTests tvOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SQLiteTests tvOS.xctest";
-			remoteRef = 72FC2C821D6AAF0F00DEB0E0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		72FC2C851D6AAF0F00DEB0E0 /* SQLite.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SQLite.framework;
-			remoteRef = 72FC2C841D6AAF0F00DEB0E0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -284,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */,
 				72FC2C951D6AB3ED00DEB0E0 /* MetaModel.swift in Sources */,
 				728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */,
 				72FC2C8A1D6AB2C600DEB0E0 /* Person.swift in Sources */,

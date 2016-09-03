@@ -9,12 +9,19 @@
 import Foundation
 import SQLite
 
+public struct MModel {
+    
+}
+
 public struct Person {
     public let id: Int
     public var name: String?
     public var email: String
 
-    public enum Represent: String {
+    let tableName = "people"
+    static let tableName = "people"
+
+    public enum Represent: String, Unwrapped {
         case id = "id"
         case name = "name"
         case email = "email"
@@ -33,13 +40,9 @@ extension Person: Recordable {
 extension Person {
     static let table = Table("people")
 
-    static let tableName = "people"
-
     public static let id = Expression<Int>("id")
     public static let name = Expression<String?>("name")
     public static let email = Expression<String>("email")
-
-    var itself: QueryType { get { return Person.table.filter(Person.id == self.id) } }
 
     static func createTable() {
         let _ = try? db.run(table.create { t in
@@ -51,29 +54,45 @@ extension Person {
 }
 
 public extension Person {
-
     static func deleteAll() {
-        let _ = try? db.run(Person.table.delete())
+        let deleteAllSQL = "DELETE FROM \(tableName.unwrapped)"
+        executeSQL(deleteAllSQL)
     }
-    
     static func count() -> Int {
-        return db.scalar(Person.table.count)
+        let countSQL = "SELECT count(*) FROM \(tableName.unwrapped)"
+        guard let count = executeSQL(countSQL)?.next()?.first as? Int64 else { return 0 }
+        return Int(count)
     }
-    
-    static func create(id: Int, name: String?, email: String) -> Person {
-        let insert = Person.table.insert(Person.id <- id, Person.name <- name, Person.email <- email)
-        let _ = try? db.run(insert)
+    static func create(id: Int, name: String?, email: String) -> Person? {
+        var columnsSQL: [Person.Represent] = []
+        var valuesSQL: [Unwrapped] = []
+
+        columnsSQL.append(.id)
+        valuesSQL.append(id)
+
+
+        if let name = name {
+            columnsSQL.append(.name)
+            valuesSQL.append(name)
+        }
+
+        columnsSQL.append(.email)
+        valuesSQL.append(email)
+
+        let insertSQL = "INSERT INTO \(tableName.unwrapped) (\(columnsSQL.map { $0.rawValue }.joinWithSeparator(", "))) VALUES (\(valuesSQL.map { $0.unwrapped }.joinWithSeparator(", ")))"
+        guard let result = executeSQL(insertSQL) else { return nil }
         return Person(id: id, name: name, email: email)
     }
     
 }
 
-
 public extension Person {
-    func delete() {
-        try! db.run(itself.delete())
-    }
+    var itself: String { get { return "WHERE \(tableName.unwrapped).\("id".unwrapped) = \(id)" } }
 
+    func delete() {
+        let deleteSQL = "DELETE FROM \(tableName.unwrapped) \(itself)"
+        executeSQL(deleteSQL)
+    }
     mutating func update(name name: String?) -> Person {
         self.name = name
         return self
@@ -82,6 +101,22 @@ public extension Person {
     mutating func update(email email: String) -> Person {
         self.email = email
         return self
+    }
+    mutating func update(attributes: [Person.Represent: Any]) {
+        var setSQL: [String] = []
+        for (key, value) in attributes {
+            switch key {
+            case .name:
+                self.name = value as? String
+                setSQL.append("\(key.unwrapped) = \(self.name?.unwrapped)")
+            case .email:
+                self.email = value as! String
+                setSQL.append("\(key.unwrapped) = \(self.email.unwrapped)")
+            default: break
+            }
+        }
+        let updateSQL = "UPDATE \(tableName.unwrapped) SET \(setSQL.joinWithSeparator(", ")) \(itself)"
+        executeSQL(updateSQL)
     }
 }
 
@@ -150,11 +185,11 @@ public extension Person {
 public class PersonRelation: Relation<Person> {
     override init() {
         super.init()
-        self.select = "SELECT \(Person.tableName.quotes).* FROM \(Person.tableName.quotes)"
+        self.select = "SELECT \(Person.tableName.unwrapped).* FROM \(Person.tableName.unwrapped)"
     }
 
     func expandColumn(column: Person.Represent) -> String {
-        return "\(Person.tableName.quotes).\(column.rawValue.quotes)"
+        return "\(Person.tableName.unwrapped).\(column.unwrapped)"
     }
 
     // MARK: Query
@@ -188,35 +223,22 @@ public class PersonRelation: Relation<Person> {
             }
 
             if let value = value as? String {
-                filterByEqual(value.quotes)
+                filterByEqual(value.unwrapped)
             } else if let value = value as? Int {
                 filterByEqual(value)
             } else if let value = value as? Double {
                 filterByEqual(value)
             } else if let value = value as? [String] {
-                filterByIn(value.map { $0.quotes })
+                filterByIn(value.map { $0.unwrapped })
             } else if let value = value as? [Int] {
                 filterByIn(value.map { $0.description })
             } else if let value = value as? [Double] {
                 filterByIn(value.map { $0.description })
             } else {
                 let valueMirror = Mirror(reflecting: value)
-                print("!!!: WRONG TYPE \(valueMirror.subjectType)")
+                print("!!!: UNSUPPORTED TYPE \(valueMirror.subjectType)")
             }
 
-        }
-        return self
-    }
-
-    public func offset(offset: UInt) -> Self {
-        self.offset = "OFFSET \(offset)"
-        return self
-    }
-
-    public func limit(length: UInt, offset: UInt = 0) -> Self {
-        self.limit = "LIMIT \(length)"
-        if offset != 0 {
-            self.offset = "OFFSET \(offset)"
         }
         return self
     }
@@ -227,7 +249,7 @@ public class PersonRelation: Relation<Person> {
     }
 
     public func groupBy(column: Person.Represent, asc: Bool) -> Self {
-        self.group.append("\(expandColumn(column)) \(asc ? "ASC".quotes : "DESC".quotes)")
+        self.group.append("\(expandColumn(column)) \(asc ? "ASC".unwrapped : "DESC".unwrapped)")
         return self
     }
 
@@ -237,7 +259,7 @@ public class PersonRelation: Relation<Person> {
     }
 
     public func orderBy(column: Person.Represent, asc: Bool) -> Self {
-        self.order.append("\(expandColumn(column)) \(asc ? "ASC".quotes : "DESC".quotes)")
+        self.order.append("\(expandColumn(column)) \(asc ? "ASC".unwrapped : "DESC".unwrapped)")
         return self
     }
 

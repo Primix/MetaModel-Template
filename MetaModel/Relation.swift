@@ -38,7 +38,7 @@ public class Relation<T: Recordable> {
     var result: [T] {
         get {
             var models: [T] = []
-            guard let stmt = executeQuery(query) else { return models }
+            guard let stmt = executeSQL(query) else { return models }
             for values in stmt {
                 models.append(T(values: values))
             }
@@ -64,6 +64,18 @@ public class Relation<T: Recordable> {
         }
     }
 
+    public func offset(offset: UInt) -> Self {
+        self.offset = "OFFSET \(offset)"
+        return self
+    }
+
+    public func limit(length: UInt, offset: UInt = 0) -> Self {
+        self.limit = "LIMIT \(length)"
+        if offset != 0 {
+            self.offset = "OFFSET \(offset)"
+        }
+        return self
+    }
 }
 
 extension Relation: CustomStringConvertible {

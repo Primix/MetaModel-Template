@@ -22,31 +22,28 @@ public class MetaModel {
 }
 
 func executeSQL(sql: String) -> Statement? {
-    print("-> MetaModel SQL: \(sql)")
-    do {
-        return try db.run(sql)
-    } catch {
-
-    }
-    return nil
-}
-
-func executeQuery(sql: String) -> Statement? {
     print("-> Begin Transaction")
     defer { print("-> Commit Transaction") }
-    print("\tSQL \(sql)")
     do {
-        return try db.prepare(sql)
+        let startDate = NSDate()
+        let result = try db.run(sql)
+        let endDate = NSDate()
+        print("\tSQL (\(endDate.timeIntervalSinceDate(startDate) * 1000)ms) \(sql)")
+        return result
     } catch {
 
     }
     return nil
 }
 
-extension String {
-    var quotes: String {
-        get {
-            return "\"\(self)\""
-        }
-    }
-}
+//func executeQuery(sql: String) -> Statement? {
+//    print("-> Begin Transaction")
+//    defer { print("-> Commit Transaction") }
+//    print("\tSQL \(sql)")
+//    do {
+//        return try db.prepare(sql)
+//    } catch {
+//
+//    }
+//    return nil
+//}

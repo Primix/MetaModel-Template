@@ -18,7 +18,6 @@ public struct Person {
     public var name: String?
     public var email: String
 
-    let tableName = "people"
     static let tableName = "people"
 
     public enum Represent: String, Unwrapped {
@@ -87,10 +86,10 @@ public extension Person {
 }
 
 public extension Person {
-    var itself: String { get { return "WHERE \(tableName.unwrapped).\("id".unwrapped) = \(id)" } }
+    var itself: String { get { return "WHERE \(Person.tableName.unwrapped).\("id".unwrapped) = \(id)" } }
 
     func delete() {
-        let deleteSQL = "DELETE FROM \(tableName.unwrapped) \(itself)"
+        let deleteSQL = "DELETE FROM \(Person.tableName.unwrapped) \(itself)"
         executeSQL(deleteSQL)
     }
     mutating func update(name name: String?) -> Person {
@@ -115,7 +114,7 @@ public extension Person {
             default: break
             }
         }
-        let updateSQL = "UPDATE \(tableName.unwrapped) SET \(setSQL.joinWithSeparator(", ")) \(itself)"
+        let updateSQL = "UPDATE \(Person.tableName.unwrapped) SET \(setSQL.joinWithSeparator(", ")) \(itself)"
         executeSQL(updateSQL)
     }
 }

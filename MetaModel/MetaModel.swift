@@ -22,16 +22,22 @@ public class MetaModel {
 }
 
 func executeSQL(sql: String) -> Statement? {
+    defer { print("\n") }
     print("-> Begin Transaction")
-    defer { print("-> Commit Transaction") }
+    let startDate = NSDate()
     do {
-        let startDate = NSDate()
         let result = try db.run(sql)
         let endDate = NSDate()
-        print("\tSQL (\(endDate.timeIntervalSinceDate(startDate) * 1000)ms) \(sql)")
+        let interval = endDate.timeIntervalSinceDate(startDate) * 1000
+        print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
+        print("-> Commit Transaction")
         return result
-    } catch {
-
+    } catch let error {
+        let endDate = NSDate()
+        let interval = endDate.timeIntervalSinceDate(startDate) * 1000
+        print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
+        print("\t\(error)")
+        print("-> Rollback transaction")
     }
     return nil
 }

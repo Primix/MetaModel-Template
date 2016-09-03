@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94A1D7AC8A600E722DF /* Unwrapped.swift */; };
+		726AA94E1D7ACEE000E722DF /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94D1D7ACEE000E722DF /* Format.swift */; };
 		728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728FA3051D6C0EBF00F2E4CF /* Relation.swift */; };
 		72FC2C671D6AAE2F00DEB0E0 /* MetaModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72FC2C661D6AAE2F00DEB0E0 /* MetaModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72FC2C8A1D6AB2C600DEB0E0 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FC2C891D6AB2C600DEB0E0 /* Person.swift */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		726AA94A1D7AC8A600E722DF /* Unwrapped.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unwrapped.swift; sourceTree = "<group>"; };
+		726AA94D1D7ACEE000E722DF /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		728FA3051D6C0EBF00F2E4CF /* Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relation.swift; sourceTree = "<group>"; };
 		72FC2C631D6AAE2F00DEB0E0 /* MetaModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MetaModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72FC2C661D6AAE2F00DEB0E0 /* MetaModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetaModel.h; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				72FC2C941D6AB3ED00DEB0E0 /* MetaModel.swift */,
 				728FA3051D6C0EBF00F2E4CF /* Relation.swift */,
 				726AA94A1D7AC8A600E722DF /* Unwrapped.swift */,
+				726AA94D1D7ACEE000E722DF /* Format.swift */,
 			);
 			path = MetaModel;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 			files = (
 				726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */,
 				72FC2C951D6AB3ED00DEB0E0 /* MetaModel.swift in Sources */,
+				726AA94E1D7ACEE000E722DF /* Format.swift in Sources */,
 				728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */,
 				72FC2C8A1D6AB2C600DEB0E0 /* Person.swift in Sources */,
 			);

@@ -90,6 +90,14 @@ public extension Person {
         get { return PersonRelation() }
     }
 
+    static func first(length: UInt) -> PersonRelation {
+        return PersonRelation().orderBy(.id, asc: true).limit(length)
+    }
+
+    static func last(length: UInt) -> PersonRelation {
+        return PersonRelation().orderBy(.id, asc: false).limit(length)
+    }
+
     static func find(id: Int) -> Person? {
         return PersonRelation().find(id).first
     }
@@ -129,6 +137,14 @@ public extension Person {
     static func groupBy(column: Person.Represent, asc: Bool) -> PersonRelation {
         return PersonRelation().groupBy(column, asc: asc)
     }
+
+    static func orderBy(column: Person.Represent) -> PersonRelation {
+        return PersonRelation().orderBy(column)
+    }
+
+    static func orderBy(column: Person.Represent, asc: Bool) -> PersonRelation {
+        return PersonRelation().orderBy(column, asc: asc)
+    }
 }
 
 public class PersonRelation: Relation<Person> {
@@ -137,9 +153,31 @@ public class PersonRelation: Relation<Person> {
         self.select = "SELECT \(Person.tableName.quotes).* FROM \(Person.tableName.quotes)"
     }
 
+    func expandColumn(column: Person.Represent) -> String {
+        return "\(Person.tableName.quotes).\(column.rawValue.quotes)"
+    }
+
+    // MARK: Query
+
+    public func find(id: Int) -> Self {
+        return self.findBy(id: id)
+    }
+
+    public func findBy(id id: Int) -> Self {
+        return self.filter([.id: id]).limit(1)
+    }
+
+    public func findBy(name name: String) -> Self {
+        return self.filter([.name: name]).limit(1)
+    }
+
+    public func findBy(email email: String) -> Self {
+        return self.filter([.email: email]).limit(1)
+    }
+
     public func filter(conditions: [Person.Represent: Any]) -> Self {
         for (column, value) in conditions {
-            let columnSQL = "\(Person.tableName.quotes).\(column.rawValue.quotes)"
+            let columnSQL = "\(expandColumn(column))"
 
             func filterByEqual(value: Any) {
                 self.filter.append("\(columnSQL) = \(value)")
@@ -170,22 +208,6 @@ public class PersonRelation: Relation<Person> {
         return self
     }
 
-    public func find(id: Int) -> Self {
-        return self.findBy(id: id)
-    }
-
-    public func findBy(id id: Int) -> Self {
-        return self.filter([.id: id]).limit(1)
-    }
-
-    public func findBy(name name: String) -> Self {
-        return self.filter([.name: name]).limit(1)
-    }
-
-    public func findBy(email email: String) -> Self {
-        return self.filter([.email: email]).limit(1)
-    }
-
     public func offset(offset: UInt) -> Self {
         self.offset = "OFFSET \(offset)"
         return self
@@ -200,12 +222,22 @@ public class PersonRelation: Relation<Person> {
     }
 
     public func groupBy(column: Person.Represent) -> Self {
-        self.group.append("\(Person.tableName.quotes).\(column.rawValue.quotes)")
+        self.group.append("\(expandColumn(column))")
         return self
     }
 
     public func groupBy(column: Person.Represent, asc: Bool) -> Self {
-        self.group.append("\(Person.tableName.quotes).\(column.rawValue.quotes) \(asc ? "ASC".quotes : "DESC".quotes)")
+        self.group.append("\(expandColumn(column)) \(asc ? "ASC".quotes : "DESC".quotes)")
+        return self
+    }
+
+    public func orderBy(column: Person.Represent) -> Self {
+        self.order.append("\(expandColumn(column))")
+        return self
+    }
+
+    public func orderBy(column: Person.Represent, asc: Bool) -> Self {
+        self.order.append("\(expandColumn(column)) \(asc ? "ASC".quotes : "DESC".quotes)")
         return self
     }
 

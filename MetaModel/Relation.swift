@@ -15,6 +15,13 @@ public protocol Recordable {
 
 public class Relation<T: Recordable> {
     private var complete: Bool = false
+    var select: String = ""
+    var filter: [String] = []
+    var order: [String] = []
+    var group: [String] = []
+    var limit: String = ""
+    var offset: String = ""
+
     var query: String {
         get {
             let selectClouse = select
@@ -25,13 +32,6 @@ public class Relation<T: Recordable> {
             return result
         }
     }
-
-    var select: String = ""
-    var filter: [String] = []
-    var order: [String] = []
-    var group: [String] = []
-    var limit: String = ""
-    var offset: String = ""
 
     var result: [T] {
         get {

@@ -49,18 +49,12 @@ extension Person: Recordable {
 }
 
 extension Person {
-    static let table = Table("people")
-
-    public static let id = Expression<Int>("id")
-    public static let name = Expression<String?>("name")
-    public static let email = Expression<String>("email")
-
-    static func createTable() {
-        
-        let _ = try? db.run(table.create { t in
-            t.column(id, primaryKey: true)
-            t.column(name)
-            t.column(email)
+    static func initialize() {
+        let createSQL = "CREATE TABLE \(tableName.unwrapped) ()"
+        let _ = try? db.run(Table("people").create { t in
+            t.column(Expression<Int>("id"), primaryKey: true)
+            t.column(Expression<String?>("name"))
+            t.column(Expression<String>("email"))
         })
     }
 }

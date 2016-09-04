@@ -28,7 +28,7 @@ public struct Person {
 extension Person {
     public init(json: [String: Any]) {
         let id: Int = json["id"] as! Int
-        let name: String? = json["name"] as? String
+        let name: String? = json["name"] as! String?
         let email: String = json["email"] as! String
         self.init(id: id, name: name, email: email)
     }
@@ -42,7 +42,7 @@ extension Person {
 extension Person: Recordable {
     public init(values: Array<Optional<Binding>>) {
         let id: Int64 = values[0] as! Int64
-        let name: String? = values[1] as? String
+        let name: String? = values[1] as! String?
         let email: String = values[2] as! String
         self.init(id: Int(id), name: name, email: email)
     }

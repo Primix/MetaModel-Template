@@ -21,7 +21,7 @@ public class MetaModel {
     }
 }
 
-func executeSQL(sql: String) -> Statement? {
+func executeSQL(sql: String, success: (() -> ())? = nil) -> Statement? {
     defer { print("\n") }
     print("-> Begin Transaction")
     let startDate = NSDate()
@@ -31,6 +31,11 @@ func executeSQL(sql: String) -> Statement? {
         let interval = endDate.timeIntervalSinceDate(startDate) * 1000
         print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
         print("-> Commit Transaction")
+
+        if let success = success {
+            success()
+        }
+
         return result
     } catch let error {
         let endDate = NSDate()

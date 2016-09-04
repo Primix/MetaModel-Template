@@ -100,30 +100,35 @@ public extension Person {
         let deleteSQL = "DELETE FROM \(Person.tableName.unwrapped) \(itself)"
         executeSQL(deleteSQL)
     }
+
     mutating func update(name name: String?) -> Person {
-        self.name = name
-        return self
+        return self.update([.name: name])
     }
 
     mutating func update(email email: String) -> Person {
-        self.email = email
-        return self
+        return self.update([.email: email])
     }
-    mutating func update(attributes: [Person.Represent: Any]) {
+
+    mutating func update(attributes: [Person.Represent: Any]) -> Person {
         var setSQL: [String] = []
         for (key, value) in attributes {
             switch key {
-            case .name:
-                self.name = value as? String
-                setSQL.append("\(key.unwrapped) = \(self.name?.unwrapped)")
-            case .email:
-                self.email = value as! String
-                setSQL.append("\(key.unwrapped) = \(self.email.unwrapped)")
+            case .name: setSQL.append("\(key.unwrapped) = \(self.name?.unwrapped)")
+            case .email: setSQL.append("\(key.unwrapped) = \(self.email.unwrapped)")
             default: break
             }
         }
         let updateSQL = "UPDATE \(Person.tableName.unwrapped) SET \(setSQL.joinWithSeparator(", ")) \(itself)"
-        executeSQL(updateSQL)
+        executeSQL(updateSQL) {
+            for (key, value) in attributes {
+                switch key {
+                case .name: self.name = value as? String
+                case .email: self.email = value as! String
+                default: break
+                }
+            }
+        }
+        return self
     }
 }
 
@@ -166,6 +171,10 @@ public extension Person {
 
     static func limit(length: UInt, offset: UInt = 0) -> PersonRelation {
         return PersonRelation().limit(length, offset: offset)
+    }
+
+    static func take(length: UInt) -> PersonRelation {
+        return limit(length)
     }
 
     static func offset(offset: UInt) -> PersonRelation {

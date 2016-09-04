@@ -172,8 +172,12 @@ public extension Person {
         return PersonRelation().offset(offset)
     }
 
-    static func groupBy(column: Person.Represent) -> PersonRelation {
-        return PersonRelation().groupBy(column)
+    static func groupBy(columns: Person.Represent...) -> PersonRelation {
+        return PersonRelation().groupBy(columns)
+    }
+
+    static func groupBy(columns: [Person.Represent]) -> PersonRelation {
+        return PersonRelation().groupBy(columns)
     }
 
     static func orderBy(column: Person.Represent) -> PersonRelation {
@@ -246,8 +250,15 @@ public class PersonRelation: Relation<Person> {
         return self
     }
 
-    public func groupBy(column: Person.Represent) -> Self {
-        self.group.append("\(expandColumn(column))")
+    public func groupBy(columns: Person.Represent...) -> Self {
+        return self.groupBy(columns)
+    }
+
+    public func groupBy(columns: [Person.Represent]) -> Self {
+        func groupBy(column: Person.Represent) {
+            self.group.append("\(expandColumn(column))")
+        }
+        columns.flatMap(groupBy)
         return self
     }
 

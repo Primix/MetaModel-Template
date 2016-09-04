@@ -25,6 +25,20 @@ public struct Person {
     }
 }
 
+extension Person {
+    public init(json: [String: Any]) {
+        let id: Int = json["id"] as! Int
+        let name: String? = json["name"] as? String
+        let email: String = json["email"] as! String
+        self.init(id: id, name: name, email: email)
+    }
+
+    public init(jsonData: NSData) throws {
+        let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as! [String: Any]
+        self.init(json: json)
+    }
+}
+
 extension Person: Recordable {
     public init(values: Array<Optional<Binding>>) {
         let id: Int64 = values[0] as! Int64

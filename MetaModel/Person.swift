@@ -24,6 +24,8 @@ public struct Person {
         case id = "id"
         case name = "name"
         case email = "email"
+
+        var unwrapped: String { get { return self.rawValue.unwrapped } }
     }
 }
 
@@ -44,6 +46,7 @@ extension Person {
     public static let email = Expression<String>("email")
 
     static func createTable() {
+        
         let _ = try? db.run(table.create { t in
             t.column(id, primaryKey: true)
             t.column(name)
@@ -62,6 +65,11 @@ public extension Person {
         guard let count = executeSQL(countSQL)?.next()?.first as? Int64 else { return 0 }
         return Int(count)
     }
+
+    static func new(name: String?, email: String) -> Person {
+        return Person(id: -1, name: name, email: email)
+    }
+
     static func create(id: Int, name: String?, email: String) -> Person? {
         var columnsSQL: [Person.Represent] = []
         var valuesSQL: [Unwrapped] = []
@@ -168,10 +176,6 @@ public extension Person {
         return PersonRelation().groupBy(column)
     }
 
-    static func groupBy(column: Person.Represent, asc: Bool) -> PersonRelation {
-        return PersonRelation().groupBy(column, asc: asc)
-    }
-
     static func orderBy(column: Person.Represent) -> PersonRelation {
         return PersonRelation().orderBy(column)
     }
@@ -244,11 +248,6 @@ public class PersonRelation: Relation<Person> {
 
     public func groupBy(column: Person.Represent) -> Self {
         self.group.append("\(expandColumn(column))")
-        return self
-    }
-
-    public func groupBy(column: Person.Represent, asc: Bool) -> Self {
-        self.group.append("\(expandColumn(column)) \(asc ? "ASC".unwrapped : "DESC".unwrapped)")
         return self
     }
 

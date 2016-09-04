@@ -17,7 +17,7 @@ let db =  try! Connection("\(path)/db1.sqlite3")
 
 public class MetaModel {
     public static func initialize() {
-        Person.createTable()
+        Person.initialize()
     }
 }
 

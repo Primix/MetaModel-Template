@@ -16,7 +16,7 @@ public struct Person {
 
     static let tableName = "people"
 
-    public enum Represent: String, Unwrapped {
+    public enum Column: String, Unwrapped {
         case id = "id"
         case name = "name"
         case email = "email"
@@ -75,7 +75,7 @@ public extension Person {
     }
 
     static func create(id: Int, name: String?, email: String) -> Person? {
-        var columnsSQL: [Person.Represent] = []
+        var columnsSQL: [Person.Column] = []
         var valuesSQL: [Unwrapped] = []
 
         columnsSQL.append(.id)
@@ -113,7 +113,7 @@ public extension Person {
         return self.update([.email: email])
     }
 
-    mutating func update(attributes: [Person.Represent: Any]) -> Person {
+    mutating func update(attributes: [Person.Column: Any]) -> Person {
         var setSQL: [String] = []
         for (key, value) in attributes {
             switch key {
@@ -165,11 +165,11 @@ public extension Person {
         return PersonRelation().findBy(email: email).first
     }
 
-    static func filter(column: Person.Represent, value: Any) -> PersonRelation {
+    static func filter(column: Person.Column, value: Any) -> PersonRelation {
         return PersonRelation().filter([column: value])
     }
 
-    static func filter(conditions: [Person.Represent: Any]) -> PersonRelation {
+    static func filter(conditions: [Person.Column: Any]) -> PersonRelation {
         return PersonRelation().filter(conditions)
     }
 
@@ -185,19 +185,19 @@ public extension Person {
         return PersonRelation().offset(offset)
     }
 
-    static func groupBy(columns: Person.Represent...) -> PersonRelation {
+    static func groupBy(columns: Person.Column...) -> PersonRelation {
         return PersonRelation().groupBy(columns)
     }
 
-    static func groupBy(columns: [Person.Represent]) -> PersonRelation {
+    static func groupBy(columns: [Person.Column]) -> PersonRelation {
         return PersonRelation().groupBy(columns)
     }
 
-    static func orderBy(column: Person.Represent) -> PersonRelation {
+    static func orderBy(column: Person.Column) -> PersonRelation {
         return PersonRelation().orderBy(column)
     }
 
-    static func orderBy(column: Person.Represent, asc: Bool) -> PersonRelation {
+    static func orderBy(column: Person.Column, asc: Bool) -> PersonRelation {
         return PersonRelation().orderBy(column, asc: asc)
     }
 }
@@ -208,7 +208,7 @@ public class PersonRelation: Relation<Person> {
         self.select = "SELECT \(Person.tableName.unwrapped).* FROM \(Person.tableName.unwrapped)"
     }
 
-    func expandColumn(column: Person.Represent) -> String {
+    func expandColumn(column: Person.Column) -> String {
         return "\(Person.tableName.unwrapped).\(column.unwrapped)"
     }
 
@@ -230,7 +230,7 @@ public class PersonRelation: Relation<Person> {
         return self.filter([.email: email]).limit(1)
     }
 
-    public func filter(conditions: [Person.Represent: Any]) -> Self {
+    public func filter(conditions: [Person.Column: Any]) -> Self {
         for (column, value) in conditions {
             let columnSQL = "\(expandColumn(column))"
 
@@ -263,24 +263,24 @@ public class PersonRelation: Relation<Person> {
         return self
     }
 
-    public func groupBy(columns: Person.Represent...) -> Self {
+    public func groupBy(columns: Person.Column...) -> Self {
         return self.groupBy(columns)
     }
 
-    public func groupBy(columns: [Person.Represent]) -> Self {
-        func groupBy(column: Person.Represent) {
+    public func groupBy(columns: [Person.Column]) -> Self {
+        func groupBy(column: Person.Column) {
             self.group.append("\(expandColumn(column))")
         }
         columns.flatMap(groupBy)
         return self
     }
 
-    public func orderBy(column: Person.Represent) -> Self {
+    public func orderBy(column: Person.Column) -> Self {
         self.order.append("\(expandColumn(column))")
         return self
     }
 
-    public func orderBy(column: Person.Represent, asc: Bool) -> Self {
+    public func orderBy(column: Person.Column, asc: Bool) -> Self {
         self.order.append("\(expandColumn(column)) \(asc ? "ASC".unwrapped : "DESC".unwrapped)")
         return self
     }

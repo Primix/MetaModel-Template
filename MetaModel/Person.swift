@@ -9,10 +9,6 @@
 import Foundation
 import SQLite
 
-public struct MModel {
-    
-}
-
 public struct Person {
     public let id: Int
     public var name: String?

@@ -50,7 +50,7 @@ extension Person: Recordable {
 
 extension Person {
     static func initialize() {
-        let createSQL = "CREATE TABLE \(tableName.unwrapped) ()"
+//        let createSQL = "CREATE TABLE \(tableName.unwrapped) ()"
         let _ = try? db.run(Table("people").create { t in
             t.column(Expression<Int>("id"), primaryKey: true)
             t.column(Expression<String?>("name"))
@@ -91,7 +91,7 @@ public extension Person {
         valuesSQL.append(email)
 
         let insertSQL = "INSERT INTO \(tableName.unwrapped) (\(columnsSQL.map { $0.rawValue }.joinWithSeparator(", "))) VALUES (\(valuesSQL.map { $0.unwrapped }.joinWithSeparator(", ")))"
-        guard let result = executeSQL(insertSQL) else { return nil }
+        guard let _ = executeSQL(insertSQL) else { return nil }
         return Person(id: id, name: name, email: email)
     }
     
@@ -115,7 +115,7 @@ public extension Person {
 
     mutating func update(attributes: [Person.Column: Any]) -> Person {
         var setSQL: [String] = []
-        for (key, value) in attributes {
+        for (key, _) in attributes {
             switch key {
             case .name: setSQL.append("\(key.unwrapped) = \(self.name?.unwrapped)")
             case .email: setSQL.append("\(key.unwrapped) = \(self.email.unwrapped)")

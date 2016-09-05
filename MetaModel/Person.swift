@@ -26,16 +26,24 @@ public struct Person {
 }
 
 extension Person {
-    public init(json: [String: Any]) {
+    public static func parse(json: [String: Any]) -> Person {
         let id: Int = json["id"] as! Int
         let name: String? = json["name"] as! String?
         let email: String = json["email"] as! String
-        self.init(id: id, name: name, email: email)
+        return Person(id: id, name: name, email: email)
+    }
+    
+    public static func parse(jsons: [[String: Any]]) -> [Person] {
+        var results: [Person] = []
+        for json in jsons {
+            results.append(Person.parse(json))
+        }
+        return results
     }
 
-    public init(jsonData: NSData) throws {
-        let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as! [String: Any]
-        self.init(json: json)
+    public static func parse(data: NSData) throws -> Person {
+        let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! [String: Any]
+        return Person.parse(json)
     }
 }
 
@@ -132,6 +140,13 @@ public extension Person {
             }
         }
         return self
+    }
+    
+    var save: Person {
+        get {
+            Person.create(id, name: name, email: email)
+            return self
+        }
     }
 }
 

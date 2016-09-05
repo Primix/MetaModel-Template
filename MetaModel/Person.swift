@@ -45,6 +45,11 @@ extension Person {
         let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! [String: Any]
         return Person.parse(json)
     }
+    
+    public static func parses(data: NSData) throws -> [Person] {
+        let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! [[String: Any]]
+        return Person.parse(json)
+    }
 }
 
 extension Person: Recordable {

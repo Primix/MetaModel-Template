@@ -70,6 +70,11 @@ extension Person {
             t.column(Expression<String>("email"))
         })
     }
+
+    static func deinitialize() {
+        let dropTableSQL = "DROP TABLE \(tableName.unwrapped)"
+        executeSQL(dropTableSQL)
+    }
 }
 
 public extension Person {

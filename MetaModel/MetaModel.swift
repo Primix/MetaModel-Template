@@ -17,11 +17,22 @@ let db =  try! Connection("\(path)/db1.sqlite3")
 
 public class MetaModel {
     public static func initialize() {
+        validateMetaModelTables()
+
         Person.initialize()
+    }
+
+    static func validateMetaModelTables() {
+        createMetaModelTable()
+        let infos = retrieveMetaModelTableInfos()
+        if infos[Person.tableName] != "daadaadada" {
+            updateMetaModelTableInfos(Person.tableName, hashValue: "daadaadada")
+            Person.deinitialize()
+        }
     }
 }
 
-func executeSQL(sql: String, success: (() -> ())? = nil) -> Statement? {
+func executeSQL(sql: String, silent: Bool = false, success: (() -> ())? = nil) -> Statement? {
     defer { print("\n") }
     print("-> Begin Transaction")
     let startDate = NSDate()
@@ -47,14 +58,3 @@ func executeSQL(sql: String, success: (() -> ())? = nil) -> Statement? {
     return nil
 }
 
-//func executeQuery(sql: String) -> Statement? {
-//    print("-> Begin Transaction")
-//    defer { print("-> Commit Transaction") }
-//    print("\tSQL \(sql)")
-//    do {
-//        return try db.prepare(sql)
-//    } catch {
-//
-//    }
-//    return nil
-//}

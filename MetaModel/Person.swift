@@ -94,7 +94,6 @@ public extension Person {
         guard let _ = executeSQL(insertSQL) else { return nil }
         return Person(id: id, name: name, email: email)
     }
-    
 }
 
 public extension Person {
@@ -271,7 +270,7 @@ public class PersonRelation: Relation<Person> {
         func groupBy(column: Person.Column) {
             self.group.append("\(expandColumn(column))")
         }
-        columns.flatMap(groupBy)
+        _ = columns.flatMap(groupBy)
         return self
     }
 

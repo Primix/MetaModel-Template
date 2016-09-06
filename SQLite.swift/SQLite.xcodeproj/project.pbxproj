@@ -16,7 +16,6 @@
 		EE247B081C3F06E900AE3E12 /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AF31C3F06E900AE3E12 /* Value.swift */; };
 		EE247B0B1C3F06E900AE3E12 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AF71C3F06E900AE3E12 /* Foundation.swift */; };
 		EE247B0C1C3F06E900AE3E12 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AF81C3F06E900AE3E12 /* Helpers.swift */; };
-		EE247B0E1C3F06E900AE3E12 /* Collation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AFB1C3F06E900AE3E12 /* Collation.swift */; };
 		EE247B0F1C3F06E900AE3E12 /* CoreFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AFC1C3F06E900AE3E12 /* CoreFunctions.swift */; };
 		EE247B111C3F06E900AE3E12 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AFE1C3F06E900AE3E12 /* Expression.swift */; };
 		EE247B121C3F06E900AE3E12 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AFF1C3F06E900AE3E12 /* Operators.swift */; };
@@ -49,7 +48,6 @@
 		EE247AF31C3F06E900AE3E12 /* Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		EE247AF71C3F06E900AE3E12 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
 		EE247AF81C3F06E900AE3E12 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
-		EE247AFB1C3F06E900AE3E12 /* Collation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collation.swift; sourceTree = "<group>"; };
 		EE247AFC1C3F06E900AE3E12 /* CoreFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreFunctions.swift; sourceTree = "<group>"; };
 		EE247AFE1C3F06E900AE3E12 /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		EE247AFF1C3F06E900AE3E12 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
@@ -239,7 +237,6 @@
 		EE247AF91C3F06E900AE3E12 /* Typed */ = {
 			isa = PBXGroup;
 			children = (
-				EE247AFB1C3F06E900AE3E12 /* Collation.swift */,
 				EE247AFC1C3F06E900AE3E12 /* CoreFunctions.swift */,
 				EE247AFE1C3F06E900AE3E12 /* Expression.swift */,
 				EE247AFF1C3F06E900AE3E12 /* Operators.swift */,
@@ -372,7 +369,6 @@
 				EE247B041C3F06E900AE3E12 /* Connection.swift in Sources */,
 				EE247B111C3F06E900AE3E12 /* Expression.swift in Sources */,
 				EE247B0C1C3F06E900AE3E12 /* Helpers.swift in Sources */,
-				EE247B0E1C3F06E900AE3E12 /* Collation.swift in Sources */,
 				EE247B151C3F06E900AE3E12 /* Setter.swift in Sources */,
 				EE247B081C3F06E900AE3E12 /* Value.swift in Sources */,
 				EE247B121C3F06E900AE3E12 /* Operators.swift in Sources */,

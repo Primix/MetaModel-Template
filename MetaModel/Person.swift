@@ -64,11 +64,6 @@ extension Person: Recordable {
 extension Person {
     static func initialize() {
 //        let createSQL = "CREATE TABLE \(tableName.unwrapped) ()"
-        let _ = try? db.run(Table("people").create { t in
-            t.column(Expression<Int>("id"), primaryKey: true)
-            t.column(Expression<String?>("name"))
-            t.column(Expression<String>("email"))
-        })
     }
 
     static func deinitialize() {

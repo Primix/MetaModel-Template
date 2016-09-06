@@ -261,21 +261,6 @@ extension ExpressionType where UnderlyingType == String {
         return "REGEXP".infix(self, pattern)
     }
 
-    /// Builds a copy of the expression appended with a `COLLATE` clause with
-    /// the given sequence.
-    ///
-    ///     let name = Expression<String>("name")
-    ///     name.collate(.Nocase)
-    ///     // "name" COLLATE NOCASE
-    ///
-    /// - Parameter collation: A collating sequence.
-    ///
-    /// - Returns: A copy of the expression appended with a `COLLATE` clause
-    ///   with the given sequence.
-    @warn_unused_result public func collate(collation: Collation) -> Expression<UnderlyingType> {
-        return "COLLATE".infix(self, collation)
-    }
-
     /// Builds a copy of the expression wrapped with the `ltrim` function.
     ///
     ///     let name = Expression<String>("name")
@@ -459,21 +444,6 @@ extension ExpressionType where UnderlyingType == String? {
     ///   against the given pattern.
     @warn_unused_result public func regexp(pattern: String) -> Expression<Bool?> {
         return "REGEXP".infix(self, pattern)
-    }
-
-    /// Builds a copy of the expression appended with a `COLLATE` clause with
-    /// the given sequence.
-    ///
-    ///     let name = Expression<String?>("name")
-    ///     name.collate(.Nocase)
-    ///     // "name" COLLATE NOCASE
-    ///
-    /// - Parameter collation: A collating sequence.
-    ///
-    /// - Returns: A copy of the expression appended with a `COLLATE` clause
-    ///   with the given sequence.
-    @warn_unused_result public func collate(collation: Collation) -> Expression<UnderlyingType> {
-        return "COLLATE".infix(self, collation)
     }
 
     /// Builds a copy of the expression wrapped with the `ltrim` function.

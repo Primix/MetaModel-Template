@@ -80,7 +80,7 @@ public extension Person {
     }
     static func count() -> Int {
         let countSQL = "SELECT count(*) FROM \(tableName.unwrapped)"
-        guard let count = executeSQL(countSQL)?.next()?.first as? Int64 else { return 0 }
+        guard let count = executeScalarSQL(countSQL) as? Int64 else { return 0 }
         return Int(count)
     }
 

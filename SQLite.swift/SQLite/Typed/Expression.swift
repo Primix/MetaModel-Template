@@ -70,40 +70,10 @@ public protocol Expressible {
 
 }
 
-extension Expressible {
-
-    // naïve compiler for statements that can’t be bound, e.g., CREATE TABLE
-    // FIXME: use @testable and make internal
-    public func asSQL() -> String {
-        let expressed = expression
-        var idx = 0
-        return expressed.template.characters.reduce("") { template, character in
-            let transcoded: String
-            
-            if character == "?" {
-                transcoded = transcode(expressed.bindings[idx])
-                idx += 1
-            } else {
-                transcoded = String(character)
-            }
-            return template + transcoded
-        }
-    }
-
-}
-
 extension ExpressionType {
 
     public var expression: Expression<Void> {
         return Expression(template, bindings)
-    }
-
-    public var asc: Expressible {
-        return " ".join([self, Expression<Void>(literal: "ASC")])
-    }
-
-    public var desc: Expressible {
-        return " ".join([self, Expression<Void>(literal: "DESC")])
     }
 
 }

@@ -67,26 +67,6 @@ public var dateFormatter: NSDateFormatter = {
     return formatter
 }()
 
-// FIXME: rdar://problem/18673897 // subscript<T>…
-
-extension QueryType {
-
-    public subscript(column: Expression<NSData>) -> Expression<NSData> {
-        return namespace(column)
-    }
-    public subscript(column: Expression<NSData?>) -> Expression<NSData?> {
-        return namespace(column)
-    }
-
-    public subscript(column: Expression<NSDate>) -> Expression<NSDate> {
-        return namespace(column)
-    }
-    public subscript(column: Expression<NSDate?>) -> Expression<NSDate?> {
-        return namespace(column)
-    }
-
-}
-
 extension Row {
 
     public subscript(column: Expression<NSData>) -> NSData {

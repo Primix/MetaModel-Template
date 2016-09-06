@@ -165,10 +165,6 @@ extension SchemaType {
         return select(true, [column])
     }
 
-    public var count: ScalarQuery<Int> {
-        return select(Expression.count(*))
-    }
-
 }
 
 extension QueryType {

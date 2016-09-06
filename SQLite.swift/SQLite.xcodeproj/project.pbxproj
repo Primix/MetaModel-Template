@@ -16,7 +16,6 @@
 		EE247B081C3F06E900AE3E12 /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AF31C3F06E900AE3E12 /* Value.swift */; };
 		EE247B0B1C3F06E900AE3E12 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AF71C3F06E900AE3E12 /* Foundation.swift */; };
 		EE247B0C1C3F06E900AE3E12 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AF81C3F06E900AE3E12 /* Helpers.swift */; };
-		EE247B0D1C3F06E900AE3E12 /* AggregateFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AFA1C3F06E900AE3E12 /* AggregateFunctions.swift */; };
 		EE247B0E1C3F06E900AE3E12 /* Collation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AFB1C3F06E900AE3E12 /* Collation.swift */; };
 		EE247B0F1C3F06E900AE3E12 /* CoreFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AFC1C3F06E900AE3E12 /* CoreFunctions.swift */; };
 		EE247B111C3F06E900AE3E12 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE247AFE1C3F06E900AE3E12 /* Expression.swift */; };
@@ -50,7 +49,6 @@
 		EE247AF31C3F06E900AE3E12 /* Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		EE247AF71C3F06E900AE3E12 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
 		EE247AF81C3F06E900AE3E12 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
-		EE247AFA1C3F06E900AE3E12 /* AggregateFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregateFunctions.swift; sourceTree = "<group>"; };
 		EE247AFB1C3F06E900AE3E12 /* Collation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collation.swift; sourceTree = "<group>"; };
 		EE247AFC1C3F06E900AE3E12 /* CoreFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreFunctions.swift; sourceTree = "<group>"; };
 		EE247AFE1C3F06E900AE3E12 /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
@@ -241,7 +239,6 @@
 		EE247AF91C3F06E900AE3E12 /* Typed */ = {
 			isa = PBXGroup;
 			children = (
-				EE247AFA1C3F06E900AE3E12 /* AggregateFunctions.swift */,
 				EE247AFB1C3F06E900AE3E12 /* Collation.swift */,
 				EE247AFC1C3F06E900AE3E12 /* CoreFunctions.swift */,
 				EE247AFE1C3F06E900AE3E12 /* Expression.swift */,
@@ -383,7 +380,6 @@
 				EE247B131C3F06E900AE3E12 /* Query.swift in Sources */,
 				EE247B061C3F06E900AE3E12 /* SQLite-Bridging.m in Sources */,
 				EE247B071C3F06E900AE3E12 /* Statement.swift in Sources */,
-				EE247B0D1C3F06E900AE3E12 /* AggregateFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

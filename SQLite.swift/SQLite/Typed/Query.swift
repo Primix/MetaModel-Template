@@ -562,41 +562,6 @@ extension QueryType {
     //
     // MARK: INSERT
 
-    public func insert(value: Setter, _ more: Setter...) -> Insert {
-        return insert([value] + more)
-    }
-
-    public func insert(values: [Setter]) -> Insert {
-        return insert(nil, values)
-    }
-
-    public func insert(or onConflict: OnConflict, _ values: Setter...) -> Insert {
-        return insert(or: onConflict, values)
-    }
-
-    public func insert(or onConflict: OnConflict, _ values: [Setter]) -> Insert {
-        return insert(onConflict, values)
-    }
-
-    private func insert(or: OnConflict?, _ values: [Setter]) -> Insert {
-        let insert = values.reduce((columns: [Expressible](), values: [Expressible]())) { insert, setter in
-            (insert.columns + [setter.column], insert.values + [setter.value])
-        }
-
-        let clauses: [Expressible?] = [
-            Expression<Void>(literal: "INSERT"),
-            or.map { Expression<Void>(literal: "OR \($0.rawValue)") },
-            Expression<Void>(literal: "INTO"),
-            tableName(),
-            "".wrap(insert.columns) as Expression<Void>,
-            Expression<Void>(literal: "VALUES"),
-            "".wrap(insert.values) as Expression<Void>,
-            whereClause
-        ]
-
-        return Insert(" ".join(clauses.flatMap { $0 }).expression)
-    }
-
     /// Runs an `INSERT` statement against the query with `DEFAULT VALUES`.
     public func insert() -> Insert {
         return Insert(" ".join([
@@ -618,24 +583,6 @@ extension QueryType {
             tableName(),
             query.expression
         ]).expression)
-    }
-
-    // MARK: UPDATE
-
-    public func update(values: Setter...) -> Update {
-        return update(values)
-    }
-
-    public func update(values: [Setter]) -> Update {
-        let clauses: [Expressible?] = [
-            Expression<Void>(literal: "UPDATE"),
-            tableName(),
-            Expression<Void>(literal: "SET"),
-            ", ".join(values.map { " = ".join([$0.column, $0.value]) }),
-            whereClause
-        ]
-
-        return Update(" ".join(clauses.flatMap { $0 }).expression)
     }
 
     // MARK: DELETE

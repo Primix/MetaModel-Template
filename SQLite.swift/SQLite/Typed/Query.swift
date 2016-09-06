@@ -22,20 +22,6 @@
 // THE SOFTWARE.
 //
 
-public protocol QueryType : Expressible {
-
-    var clauses: QueryClauses { get set }
-
-    init(_ name: String, database: String?)
-
-}
-
-public protocol SchemaType : QueryType {
-
-    static var identifier: String { get }
-
-}
-
 public struct Row {
 
     private let columnNames: [String: Int]
@@ -119,59 +105,6 @@ public struct Row {
     }
     public subscript(column: Expression<String?>) -> String? {
         return get(column)
-    }
-
-}
-
-/// Determines the join operator for a query’s `JOIN` clause.
-public enum JoinType : String {
-
-    /// A `CROSS` join.
-    case Cross = "CROSS"
-
-    /// An `INNER` join.
-    case Inner = "INNER"
-
-    /// A `LEFT OUTER` join.
-    case LeftOuter = "LEFT OUTER"
-
-}
-
-/// ON CONFLICT resolutions.
-public enum OnConflict: String {
-
-    case Replace = "REPLACE"
-
-    case Rollback = "ROLLBACK"
-
-    case Abort = "ABORT"
-
-    case Fail = "FAIL"
-
-    case Ignore = "IGNORE"
-
-}
-
-// MARK: - Private
-
-public struct QueryClauses {
-
-    var select = (distinct: false, columns: [Expression<Void>(literal: "*") as Expressible])
-
-    var from: (name: String, alias: String?, database: String?)
-
-    var join = [(type: JoinType, query: QueryType, condition: Expressible)]()
-
-    var filters: Expression<Bool?>?
-
-    var group: (by: [Expressible], having: Expression<Bool?>?)?
-
-    var order = [Expressible]()
-
-    var limit: (length: Int, offset: Int?)?
-
-    private init(_ name: String, alias: String?, database: String?) {
-        self.from = (name, alias, database)
     }
 
 }

@@ -29,7 +29,7 @@ func retrieveMetaModelTableInfos() -> [TableName: HashValue] {
 }
 
 func updateMetaModelTableInfos(tableName: String, hashValue: String) {
-    let insertSQL = "INSERT meta_model_tables (name, hash) VALUES (\(tableName.unwrapped), \(hashValue.unwrapped));"
+    let insertSQL = "INSERT INTO meta_model_tables (name, hash) VALUES (\(tableName.unwrapped), \(hashValue.unwrapped));"
     executeSQL(insertSQL, silent: true)
 
     let updateSQL = "UPDATE meta_model_tables SET hash = \(hashValue.unwrapped) WHERE name = \(tableName.unwrapped)"

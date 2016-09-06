@@ -197,6 +197,12 @@ extension Statement : SequenceType {
 extension Statement : GeneratorType {
 
     public func next() -> [Binding?]? {
+//        do {
+//            return try step() ? Array(row) : nil
+//        } catch let error {
+//            print(error)
+//            return nil
+//        }
         return try! step() ? Array(row) : nil
     }
 

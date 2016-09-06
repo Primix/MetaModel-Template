@@ -13,7 +13,7 @@ let path = NSSearchPathForDirectoriesInDomains(
     .DocumentDirectory, .UserDomainMask, true
 ).first! as String
 
-let db =  try! Connection("\(path)/db.sqlite3")
+let db =  try! Connection("\(path)/db1.sqlite3")
 
 public class MetaModel {
     public static func initialize() {
@@ -25,8 +25,8 @@ public class MetaModel {
     static func validateMetaModelTables() {
         createMetaModelTable()
         let infos = retrieveMetaModelTableInfos()
-        if infos[Person.tableName] != "daadaadada" {
-            updateMetaModelTableInfos(Person.tableName, hashValue: "daadaadada")
+        if infos[Person.tableName] != "daadaadssada" {
+            updateMetaModelTableInfos(Person.tableName, hashValue: "daadaadssada")
             Person.deinitialize()
         }
     }

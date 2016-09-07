@@ -62,25 +62,16 @@ func executeScalarSQL(sql: String, silent: Bool = false, success: (() -> ())? = 
     defer { print("\n") }
     print("-> Begin Transaction")
     let startDate = NSDate()
-    do {
-        let result = try db.scalar(sql)
-        let endDate = NSDate()
-        let interval = endDate.timeIntervalSinceDate(startDate) * 1000
-        print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
-        print("-> Commit Transaction")
-
-        if let success = success {
-            success()
-        }
-
-        return result
-    } catch let error {
-        let endDate = NSDate()
-        let interval = endDate.timeIntervalSinceDate(startDate) * 1000
-        print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
-        print("\t\(error)")
-        print("-> Rollback transaction")
+    let result = db.scalar(sql)
+    let endDate = NSDate()
+    let interval = endDate.timeIntervalSinceDate(startDate) * 1000
+    print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
+    print("-> Commit Transaction")
+    
+    if let success = success {
+        success()
     }
-    return nil
+    
+    return result
 }
 

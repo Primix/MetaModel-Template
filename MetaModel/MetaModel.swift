@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SQLite
 
 let path = NSSearchPathForDirectoriesInDomains(
     .DocumentDirectory, .UserDomainMask, true

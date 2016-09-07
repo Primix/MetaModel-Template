@@ -11,37 +11,44 @@ import Foundation
 public struct Comment {
     public let id: Int
     public var content: String
-    public var article: Article
-    private var articleId: Int { get { return article.id } }
+    public var articleId: Int
 
     static let tableName = "comments"
 
     public enum Column: String, Unwrapped {
         case id = "id"
         case content = "content"
+        case articleId = "articleId"
 
         var unwrapped: String { get { return self.rawValue.unwrapped } }
     }
 }
 
 extension Comment {
-    public init(id: Int, content: String, article: Article) {
-        self.init(id: id, content: content, article: article, articleId: article.id)
+    public var article: Article! {
+        mutating get {
+            if self.article != nil { return article }
+            article = Article.find(articleId)
+            return article
+        }
+        set {
+            article = newValue
+        }
     }
+}
 
+extension Comment {
     public static func parse(json: [String: Any]) -> Comment {
         let id: Int = json["id"] as! Int
         let content: String = json["content"] as! String
-        let article: Article = Article.parse(json["author"] as! [String: Any])
-        return Comment(id: id, content: content, article: article)
+        let article: Article = (json["author"] as? [String: Any]).flatMap(Article.parse)!
+        var comment = Comment(id: id, content: content, articleId: article.id)
+        comment.article = article
+        return comment
     }
 
     public static func parse(jsons: [[String: Any]]) -> [Comment] {
-        var results: [Comment] = []
-        for json in jsons {
-            results.append(Comment.parse(json))
-        }
-        return results
+        return jsons.map(Comment.parse)
     }
 
     public static func parse(data: NSData) throws -> Comment {
@@ -59,8 +66,8 @@ extension Comment: Recordable {
     public init(values: Array<Optional<Binding>>) {
         let id: Int64 = values[0] as! Int64
         let content: String = values[1] as! String
-        let article: Article = Person.findBy(articleId: self.id)!
-        self.init(id: Int(id), content: content)
+        let articleId: Int64 = values[2] as! Int64
+        self.init(id: Int(id), content: content, articleId: Int(articleId))
     }
 }
 
@@ -87,11 +94,11 @@ public extension Comment {
         return Int(count)
     }
 
-    static func new(content: String, email: String) -> Comment {
-        return Comment(id: -1, content: content)
+    static func new(content: String, email: String, articleId: Int) -> Comment {
+        return Comment(id: -1, content: content, articleId: articleId)
     }
 
-    static func create(id: Int, content: String) -> Comment? {
+    static func create(id: Int, content: String, articleId: Int) -> Comment? {
         var columnsSQL: [Comment.Column] = []
         var valuesSQL: [Unwrapped] = []
 
@@ -101,9 +108,12 @@ public extension Comment {
         columnsSQL.append(.content)
         valuesSQL.append(content)
 
+        columnsSQL.append(.articleId)
+        valuesSQL.append(articleId)
+
         let insertSQL = "INSERT INTO \(tableName.unwrapped) (\(columnsSQL.map { $0.rawValue }.joinWithSeparator(", "))) VALUES (\(valuesSQL.map { $0.unwrapped }.joinWithSeparator(", ")))"
         guard let _ = executeSQL(insertSQL) else { return nil }
-        return Comment(id: id, content: content)
+        return Comment(id: id, content: content, articleId: articleId)
     }
 }
 
@@ -141,7 +151,7 @@ public extension Comment {
 
     var save: Comment {
         get {
-            Comment.create(id, content: content)
+            Comment.create(id, content: content, articleId: articleId)
             return self
         }
     }
@@ -170,6 +180,10 @@ public extension Comment {
 
     static func findBy(content content: String) -> Comment? {
         return CommentRelation().findBy(content: content).first
+    }
+
+    static func findBy(articleId articleId: Int) -> Comment? {
+        return CommentRelation().findBy(articleId: articleId).first
     }
 
     static func filter(column: Comment.Column, value: Any) -> CommentRelation {
@@ -231,6 +245,10 @@ public class CommentRelation: Relation<Comment> {
 
     public func findBy(content content: String) -> Self {
         return self.filter([.content: content]).limit(1)
+    }
+
+    public func findBy(articleId articleId: Int) -> Self {
+        return self.filter([.articleId: articleId]).limit(1)
     }
 
     public func filter(conditions: [Comment.Column: Any]) -> Self {

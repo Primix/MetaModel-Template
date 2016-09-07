@@ -11,7 +11,11 @@ import Foundation
 public struct Article {
     public let id: Int
     public var title: String
-    public var author: Person
+    public var comment: Comment? {
+        get {
+            return Comment.findBy(articleId: self.id)
+        }
+    }
 
     static let tableName = "articles"
 
@@ -27,8 +31,7 @@ extension Article {
     public static func parse(json: [String: Any]) -> Article {
         let id: Int = json["id"] as! Int
         let title: String = json["title"] as! String
-        let author: Person = Person.parse(json["author"] as! [String: Any])
-        return Article(id: id, title: title, author: author)
+        return Article(id: id, title: title)
     }
 
     public static func parse(jsons: [[String: Any]]) -> [Article] {
@@ -54,7 +57,6 @@ extension Article: Recordable {
     public init(values: Array<Optional<Binding>>) {
         let id: Int64 = values[0] as! Int64
         let title: String = values[1] as! String
-        let author: Person = Person.findBy(articleId: self.id)!
         self.init(id: Int(id), title: title)
     }
 }

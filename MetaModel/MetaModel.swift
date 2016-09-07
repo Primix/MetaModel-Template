@@ -19,6 +19,8 @@ public class MetaModel {
         validateMetaModelTables()
 
         Person.initialize()
+        Article.initialize()
+        Comment.initialize()
     }
 
     static func validateMetaModelTables() {
@@ -27,6 +29,14 @@ public class MetaModel {
         if infos[Person.tableName] != "daadaadssada" {
             updateMetaModelTableInfos(Person.tableName, hashValue: "daadaadssada")
             Person.deinitialize()
+        }
+        if infos[Article.tableName] != "daadaadssada" {
+            updateMetaModelTableInfos(Article.tableName, hashValue: "daadaadssada")
+            Article.deinitialize()
+        }
+        if infos[Comment.tableName] != "daadaadssada" {
+            updateMetaModelTableInfos(Comment.tableName, hashValue: "daadaadssada")
+            Comment.deinitialize()
         }
     }
 }

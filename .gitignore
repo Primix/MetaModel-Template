@@ -19,3 +19,6 @@ profile
 .DS_Store
 
 Carthage/Build
+
+Build
+ModuleCache

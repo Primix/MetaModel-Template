@@ -10,6 +10,8 @@
 		726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94A1D7AC8A600E722DF /* Unwrapped.swift */; };
 		726AA94E1D7ACEE000E722DF /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94D1D7ACEE000E722DF /* Format.swift */; };
 		726C52A61D7DB48300F9B7CA /* MetaModelTableInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726C52A51D7DB48300F9B7CA /* MetaModelTableInfo.swift */; };
+		726CCAE21D8074960019E94C /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726CCAE11D8074960019E94C /* Article.swift */; };
+		726CCAE41D80772E0019E94C /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726CCAE31D80772E0019E94C /* Comment.swift */; };
 		728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728FA3051D6C0EBF00F2E4CF /* Relation.swift */; };
 		72FAB9011D7FAFD900F2BE43 /* Blob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FAB8F31D7FAFD900F2BE43 /* Blob.swift */; };
 		72FAB9021D7FAFD900F2BE43 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FAB8F41D7FAFD900F2BE43 /* Connection.swift */; };
@@ -33,6 +35,8 @@
 		726AA94A1D7AC8A600E722DF /* Unwrapped.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unwrapped.swift; sourceTree = "<group>"; };
 		726AA94D1D7ACEE000E722DF /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		726C52A51D7DB48300F9B7CA /* MetaModelTableInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaModelTableInfo.swift; sourceTree = "<group>"; };
+		726CCAE11D8074960019E94C /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		726CCAE31D80772E0019E94C /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		728FA3051D6C0EBF00F2E4CF /* Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relation.swift; sourceTree = "<group>"; };
 		72FAB8F31D7FAFD900F2BE43 /* Blob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blob.swift; sourceTree = "<group>"; };
 		72FAB8F41D7FAFD900F2BE43 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
@@ -72,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				72FC2C891D6AB2C600DEB0E0 /* Person.swift */,
+				726CCAE11D8074960019E94C /* Article.swift */,
+				726CCAE31D80772E0019E94C /* Comment.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -256,9 +262,11 @@
 				728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */,
 				72FAB9421D7FB3D900F2BE43 /* Query.swift in Sources */,
 				72FC2C8A1D6AB2C600DEB0E0 /* Person.swift in Sources */,
+				726CCAE41D80772E0019E94C /* Comment.swift in Sources */,
 				72FAB9091D7FAFD900F2BE43 /* Helpers.swift in Sources */,
 				726C52A61D7DB48300F9B7CA /* MetaModelTableInfo.swift in Sources */,
 				72FAB9061D7FAFD900F2BE43 /* Statement.swift in Sources */,
+				726CCAE21D8074960019E94C /* Article.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

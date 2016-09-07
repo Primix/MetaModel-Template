@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SQLite
 
 public struct Person {
     public let id: Int

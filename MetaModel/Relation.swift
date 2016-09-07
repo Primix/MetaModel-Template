@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SQLite
 
 public protocol Recordable {
     init(values: Array<Optional<Binding>>)

@@ -1,0 +1,10 @@
+framework module MetaModel {
+  umbrella header "MetaModel.h"
+
+  export *
+  module * { export * }
+}
+
+module MetaModel.__Swift {
+    exclude header "MetaModel-Swift.h"
+}

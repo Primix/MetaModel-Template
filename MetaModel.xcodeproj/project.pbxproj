@@ -372,7 +372,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "";
 				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "$(SRCROOT)/MetaModel/SQLite/iphoneos";
-				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "${SRCROOT)/MetaModel/SQLite/iphonesimulator";
+				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "$(SRCROOT)/MetaModel/SQLite/iphonesimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -392,8 +392,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "";
-				"SWIFT_INCLUDE_PATHS[arch=*]" = "${SRCROOT)/MetaModel/SQLite/iphonesimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "${SRCROOT)/MetaModel/SQLite/iphoneos";
+				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "$(SRCROOT)/MetaModel/SQLite/iphoneos";
+				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "$(SRCROOT)/MetaModel/SQLite/iphonesimulator";
 			};
 			name = Release;
 		};

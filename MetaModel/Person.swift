@@ -62,7 +62,7 @@ extension Person: Recordable {
 
 extension Person {
     static func initialize() {
-        let createSQL = "CREATE TABLE \(tableName.unwrapped) (id INTEGER PRIMARY KEY NOT NULL, name TEXT, email TEXT NOT NULL);"
+        let createSQL = "CREATE TABLE \(tableName.unwrapped) (_id INTEGER PRIMARY KEY, id INTEGER UNIQUE DEFAULT 0 name TEXT, email TEXT NOT NULL);"
         executeSQL(createSQL);
     }
 

@@ -30,18 +30,18 @@ public class MetaModel {
             updateMetaModelTableInfos(Person.tableName, hashValue: "daadaadssada")
             Person.deinitialize()
         }
-        if infos[Article.tableName] != "daadaadssada" {
+        if infos[Article.tableName] != "sddsss" {
             updateMetaModelTableInfos(Article.tableName, hashValue: "daadaadssada")
             Article.deinitialize()
         }
-        if infos[Comment.tableName] != "daadaadssada" {
+        if infos[Comment.tableName] != "daadaadssssdaassdaada" {
             updateMetaModelTableInfos(Comment.tableName, hashValue: "daadaadssada")
             Comment.deinitialize()
         }
     }
 }
 
-func executeSQL(sql: String, silent: Bool = false, success: (() -> ())? = nil) -> Statement? {
+func executeSQL(sql: String, verbose: Bool = false, success: (() -> ())? = nil) -> Statement? {
     defer { print("\n") }
     print("-> Begin Transaction")
     let startDate = NSDate()
@@ -68,7 +68,7 @@ func executeSQL(sql: String, silent: Bool = false, success: (() -> ())? = nil) -
 }
 
 
-func executeScalarSQL(sql: String, silent: Bool = false, success: (() -> ())? = nil) -> Binding? {
+func executeScalarSQL(sql: String, verbose: Bool = false, success: (() -> ())? = nil) -> Binding? {
     defer { print("\n") }
     print("-> Begin Transaction")
     let startDate = NSDate()

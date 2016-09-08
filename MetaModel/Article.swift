@@ -11,11 +11,6 @@ import Foundation
 public struct Article {
     public let id: Int
     public var title: String
-    public var comment: Comment? {
-        get {
-            return Comment.findBy(articleId: self.id)
-        }
-    }
 
     static let tableName = "articles"
 
@@ -63,7 +58,7 @@ extension Article: Recordable {
 
 extension Article {
     static func initialize() {
-        let createSQL = "CREATE TABLE \(tableName.unwrapped) (id INTEGER PRIMARY KEY NOT NULL, title TEXT, email TEXT NOT NULL);"
+        let createSQL = "CREATE TABLE \(tableName.unwrapped) (id INTEGER PRIMARY KEY NOT NULL, title TEXT);"
         executeSQL(createSQL);
     }
 
@@ -287,4 +282,14 @@ public class ArticleRelation: Relation<Article> {
     
 }
 
-
+public extension Article {
+    var comments: [Comment] {
+        get {
+            return Comment.filter(.id, value: id).result
+        }
+    }
+    
+    func buildComment(id: Int, content: String) -> Comment? {
+        return Comment.create(id, content: content, articleId: self.id)
+    }
+}

@@ -13,13 +13,13 @@ typealias HashValue = String
 
 func createMetaModelTable() {
     let createSQL = "CREATE TABLE meta_model_tables(name TEXT PRIMARY KEY, hash TEXT NON NULL);"
-    executeSQL(createSQL, silent: true)
+    executeSQL(createSQL)
 }
 
 func retrieveMetaModelTableInfos() -> [TableName: HashValue] {
     let select = "SELECT * FROM meta_model_tables;"
     var models: [TableName: HashValue] = [:]
-    guard let stmt = executeSQL(select, silent: true) else { return [:] }
+    guard let stmt = executeSQL(select) else { return [:] }
     for values in stmt {
         let name: TableName = values[0] as! TableName
         let hash: HashValue = values[1] as! HashValue
@@ -30,8 +30,8 @@ func retrieveMetaModelTableInfos() -> [TableName: HashValue] {
 
 func updateMetaModelTableInfos(tableName: String, hashValue: String) {
     let insertSQL = "INSERT INTO meta_model_tables (name, hash) VALUES (\(tableName.unwrapped), \(hashValue.unwrapped));"
-    executeSQL(insertSQL, silent: true)
+    executeSQL(insertSQL)
 
     let updateSQL = "UPDATE meta_model_tables SET hash = \(hashValue.unwrapped) WHERE name = \(tableName.unwrapped)"
-    executeSQL(updateSQL, silent: true)
+    executeSQL(updateSQL)
 }

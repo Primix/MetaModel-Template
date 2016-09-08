@@ -73,7 +73,7 @@ extension Comment: Recordable {
 
 extension Comment {
     static func initialize() {
-        let createSQL = "CREATE TABLE \(tableName.unwrapped) (id INTEGER PRIMARY KEY NOT NULL, content TEXT, email TEXT NOT NULL);"
+        let createSQL = "CREATE TABLE \(tableName.unwrapped) (id INTEGER PRIMARY KEY NOT NULL, content TEXT, articleId INTEGER, FOREIGN KEY(articleId) REFERENCES articles(id));"
         executeSQL(createSQL);
     }
 

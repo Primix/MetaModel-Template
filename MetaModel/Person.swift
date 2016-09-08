@@ -83,8 +83,8 @@ public extension Person {
         return Int(count)
     }
 
-    static func new(name: String?, email: String) -> Person {
-        return Person(id: -1, name: name, email: email)
+    static func new(id: Int = -1, name: String?, email: String) -> Person {
+        return Person(id: id, name: name, email: email)
     }
 
     static func create(id: Int, name: String?, email: String) -> Person? {

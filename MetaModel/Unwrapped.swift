@@ -27,3 +27,10 @@ extension String: Unwrapped {
         return "\"\(self)\""
     }
 }
+
+extension Bool: Unwrapped {
+    var unwrapped: String {
+        return "\(self)"
+    }
+    
+}

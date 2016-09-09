@@ -10,6 +10,13 @@
 		726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94A1D7AC8A600E722DF /* Unwrapped.swift */; };
 		726AA94E1D7ACEE000E722DF /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94D1D7ACEE000E722DF /* Format.swift */; };
 		726C52A61D7DB48300F9B7CA /* MetaModelTableInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726C52A51D7DB48300F9B7CA /* MetaModelTableInfo.swift */; };
+		7281D48D1D82863200D87D05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281D48C1D82863200D87D05 /* AppDelegate.swift */; };
+		7281D48F1D82863200D87D05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281D48E1D82863200D87D05 /* ViewController.swift */; };
+		7281D4921D82863200D87D05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7281D4901D82863200D87D05 /* Main.storyboard */; };
+		7281D4941D82863200D87D05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7281D4931D82863200D87D05 /* Assets.xcassets */; };
+		7281D4971D82863200D87D05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7281D4951D82863200D87D05 /* LaunchScreen.storyboard */; };
+		7281D49C1D82863C00D87D05 /* MetaModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72FC2C631D6AAE2F00DEB0E0 /* MetaModel.framework */; };
+		7281D49D1D82863C00D87D05 /* MetaModel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 72FC2C631D6AAE2F00DEB0E0 /* MetaModel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728FA3051D6C0EBF00F2E4CF /* Relation.swift */; };
 		72FAB9011D7FAFD900F2BE43 /* Blob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FAB8F31D7FAFD900F2BE43 /* Blob.swift */; };
 		72FAB9021D7FAFD900F2BE43 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FAB8F41D7FAFD900F2BE43 /* Connection.swift */; };
@@ -29,10 +36,41 @@
 		72FC2C951D6AB3ED00DEB0E0 /* MetaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FC2C941D6AB3ED00DEB0E0 /* MetaModel.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7281D49E1D82863C00D87D05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 72FC2C5A1D6AAE2F00DEB0E0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 72FC2C621D6AAE2F00DEB0E0;
+			remoteInfo = MetaModel;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7281D4A01D82863C00D87D05 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7281D49D1D82863C00D87D05 /* MetaModel.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		726AA94A1D7AC8A600E722DF /* Unwrapped.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unwrapped.swift; sourceTree = "<group>"; };
 		726AA94D1D7ACEE000E722DF /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		726C52A51D7DB48300F9B7CA /* MetaModelTableInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaModelTableInfo.swift; sourceTree = "<group>"; };
+		7281D48A1D82863200D87D05 /* MetaModel iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MetaModel iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7281D48C1D82863200D87D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7281D48E1D82863200D87D05 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7281D4911D82863200D87D05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7281D4931D82863200D87D05 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7281D4961D82863200D87D05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7281D4981D82863200D87D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		728FA3051D6C0EBF00F2E4CF /* Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relation.swift; sourceTree = "<group>"; };
 		72FAB8F31D7FAFD900F2BE43 /* Blob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blob.swift; sourceTree = "<group>"; };
 		72FAB8F41D7FAFD900F2BE43 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
@@ -57,6 +95,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7281D4871D82863200D87D05 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7281D49C1D82863C00D87D05 /* MetaModel.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		72FC2C5F1D6AAE2F00DEB0E0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -74,6 +120,19 @@
 				72FC2C891D6AB2C600DEB0E0 /* Person.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		7281D48B1D82863200D87D05 /* MetaModel iOS Example */ = {
+			isa = PBXGroup;
+			children = (
+				7281D48C1D82863200D87D05 /* AppDelegate.swift */,
+				7281D48E1D82863200D87D05 /* ViewController.swift */,
+				7281D4901D82863200D87D05 /* Main.storyboard */,
+				7281D4931D82863200D87D05 /* Assets.xcassets */,
+				7281D4951D82863200D87D05 /* LaunchScreen.storyboard */,
+				7281D4981D82863200D87D05 /* Info.plist */,
+			);
+			path = "MetaModel iOS Example";
 			sourceTree = "<group>";
 		};
 		72FAB8F11D7FAFD900F2BE43 /* SQLite */ = {
@@ -125,6 +184,7 @@
 		72FC2C591D6AAE2F00DEB0E0 = {
 			isa = PBXGroup;
 			children = (
+				7281D48B1D82863200D87D05 /* MetaModel iOS Example */,
 				72FC2C651D6AAE2F00DEB0E0 /* MetaModel */,
 				72FC2C921D6AB2CF00DEB0E0 /* Supporting FIles */,
 				72FC2C641D6AAE2F00DEB0E0 /* Products */,
@@ -135,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				72FC2C631D6AAE2F00DEB0E0 /* MetaModel.framework */,
+				7281D48A1D82863200D87D05 /* MetaModel iOS Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -180,6 +241,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		7281D4891D82863200D87D05 /* MetaModel iOS Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7281D4991D82863200D87D05 /* Build configuration list for PBXNativeTarget "MetaModel iOS Example" */;
+			buildPhases = (
+				7281D4861D82863200D87D05 /* Sources */,
+				7281D4871D82863200D87D05 /* Frameworks */,
+				7281D4881D82863200D87D05 /* Resources */,
+				7281D4A01D82863C00D87D05 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7281D49F1D82863C00D87D05 /* PBXTargetDependency */,
+			);
+			name = "MetaModel iOS Example";
+			productName = "MetaModel iOS Example";
+			productReference = 7281D48A1D82863200D87D05 /* MetaModel iOS Example.app */;
+			productType = "com.apple.product-type.application";
+		};
 		72FC2C621D6AAE2F00DEB0E0 /* MetaModel */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 72FC2C6B1D6AAE2F00DEB0E0 /* Build configuration list for PBXNativeTarget "MetaModel" */;
@@ -204,9 +284,13 @@
 		72FC2C5A1D6AAE2F00DEB0E0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = metamodel;
 				TargetAttributes = {
+					7281D4891D82863200D87D05 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					72FC2C621D6AAE2F00DEB0E0 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -218,6 +302,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 72FC2C591D6AAE2F00DEB0E0;
 			productRefGroup = 72FC2C641D6AAE2F00DEB0E0 /* Products */;
@@ -225,11 +310,22 @@
 			projectRoot = "";
 			targets = (
 				72FC2C621D6AAE2F00DEB0E0 /* MetaModel */,
+				7281D4891D82863200D87D05 /* MetaModel iOS Example */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7281D4881D82863200D87D05 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7281D4971D82863200D87D05 /* LaunchScreen.storyboard in Resources */,
+				7281D4941D82863200D87D05 /* Assets.xcassets in Resources */,
+				7281D4921D82863200D87D05 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		72FC2C611D6AAE2F00DEB0E0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -241,6 +337,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7281D4861D82863200D87D05 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7281D48F1D82863200D87D05 /* ViewController.swift in Sources */,
+				7281D48D1D82863200D87D05 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		72FC2C5E1D6AAE2F00DEB0E0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -264,7 +369,58 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		7281D49F1D82863C00D87D05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 72FC2C621D6AAE2F00DEB0E0 /* MetaModel */;
+			targetProxy = 7281D49E1D82863C00D87D05 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7281D4901D82863200D87D05 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7281D4911D82863200D87D05 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		7281D4951D82863200D87D05 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7281D4961D82863200D87D05 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		7281D49A1D82863200D87D05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = "MetaModel iOS Example/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.metamodel.MetaModel-iOS-Example";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7281D49B1D82863200D87D05 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = "MetaModel iOS Example/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.metamodel.MetaModel-iOS-Example";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		72FC2C691D6AAE2F00DEB0E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -400,6 +556,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7281D4991D82863200D87D05 /* Build configuration list for PBXNativeTarget "MetaModel iOS Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7281D49A1D82863200D87D05 /* Debug */,
+				7281D49B1D82863200D87D05 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		72FC2C5D1D6AAE2F00DEB0E0 /* Build configuration list for PBXProject "MetaModel" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

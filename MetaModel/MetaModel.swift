@@ -17,8 +17,6 @@ let db =  try! Connection("\(path)/db1.sqlite3")
 public class MetaModel {
     public static func initialize() {
         validateMetaModelTables()
-
-        Person.initialize()
     }
 
     static func validateMetaModelTables() {
@@ -27,46 +25,59 @@ public class MetaModel {
         if infos[Person.tableName] != "daadaadssada" {
             updateMetaModelTableInfos(Person.tableName, hashValue: "daadaadssada")
             Person.deinitialize()
+            Person.initialize()
         }
     }
 }
 
-func executeSQL(sql: String, verbose: Bool = false, success: (() -> ())? = nil) -> Statement? {
-    defer { print("\n") }
-    print("-> Begin Transaction")
+func executeSQL(sql: String, verbose: Bool = false, suppress: Bool = false, success: (() -> ())? = nil) -> Statement? {
+    if verbose {
+        print("-> Begin Transaction")
+    }
     let startDate = NSDate()
     do {
         let result = try db.run(sql)
         let endDate = NSDate()
         let interval = endDate.timeIntervalSinceDate(startDate) * 1000
-        print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
-        print("-> Commit Transaction")
-
+        
+        if verbose {
+            print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
+            print("-> Commit Transaction")
+            print("\n")
+        }
         if let success = success {
             success()
         }
-
+        
         return result
     } catch let error {
         let endDate = NSDate()
         let interval = endDate.timeIntervalSinceDate(startDate) * 1000
-        print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
-        print("\t\(error)")
-        print("-> Rollback transaction")
+        if !suppress {
+            print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
+            print("\t\(error)")
+        }
+        if verbose {
+            print("-> Rollback transaction")
+            print("\n")
+        }
     }
     return nil
 }
 
-
-func executeScalarSQL(sql: String, verbose: Bool = false, success: (() -> ())? = nil) -> Binding? {
-    defer { print("\n") }
-    print("-> Begin Transaction")
+func executeScalarSQL(sql: String, verbose: Bool = false, supress: Bool = false, success: (() -> ())? = nil) -> Binding? {
+    if verbose {
+        print("-> Begin Transaction")
+    }
     let startDate = NSDate()
     let result = db.scalar(sql)
     let endDate = NSDate()
     let interval = endDate.timeIntervalSinceDate(startDate) * 1000
-    print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
-    print("-> Commit Transaction")
+    if verbose {
+        print("\tSQL (\(interval.format("0.2"))ms) \(sql)")
+        print("-> Commit Transaction")
+        print("\n")
+    }
     
     if let success = success {
         success()
@@ -74,4 +85,3 @@ func executeScalarSQL(sql: String, verbose: Bool = false, success: (() -> ())? =
     
     return result
 }
-

@@ -53,16 +53,16 @@ extension Person {
 
 extension Person: Recordable {
     public init(values: Array<Optional<Binding>>) {
-        let id: Int64 = values[0] as! Int64
-        let name: String? = values[1] as! String?
-        let email: String = values[2] as! String
+        let id: Int64 = values[1] as! Int64
+        let name: String? = values[2] as! String?
+        let email: String = values[3] as! String
         self.init(id: Int(id), name: name, email: email)
     }
 }
 
 extension Person {
     static func initialize() {
-        let createSQL = "CREATE TABLE \(tableName.unwrapped) (_id INTEGER PRIMARY KEY, id INTEGER UNIQUE DEFAULT 0 name TEXT, email TEXT NOT NULL);"
+        let createSQL = "CREATE TABLE \(tableName.unwrapped) (_id INTEGER PRIMARY KEY, id INTEGER UNIQUE DEFAULT 0, name TEXT, email TEXT NOT NULL);"
         executeSQL(createSQL);
     }
 

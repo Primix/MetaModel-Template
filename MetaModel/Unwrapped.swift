@@ -32,5 +32,10 @@ extension Bool: Unwrapped {
     var unwrapped: String {
         return "\(self)"
     }
-    
+}
+
+extension NSDate: Unwrapped {
+    var unwrapped: String {
+        return "\(self.timeIntervalSince1970)"
+    }
 }

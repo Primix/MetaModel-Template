@@ -10,6 +10,7 @@
 		726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94A1D7AC8A600E722DF /* Unwrapped.swift */; };
 		726AA94E1D7ACEE000E722DF /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94D1D7ACEE000E722DF /* Format.swift */; };
 		726C52A61D7DB48300F9B7CA /* MetaModelTableInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726C52A51D7DB48300F9B7CA /* MetaModelTableInfo.swift */; };
+		726CCB011D830A930019E94C /* Constructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726CCB001D830A930019E94C /* Constructor.swift */; };
 		7281D48D1D82863200D87D05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281D48C1D82863200D87D05 /* AppDelegate.swift */; };
 		7281D48F1D82863200D87D05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281D48E1D82863200D87D05 /* ViewController.swift */; };
 		7281D4921D82863200D87D05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7281D4901D82863200D87D05 /* Main.storyboard */; };
@@ -65,6 +66,7 @@
 		726AA94A1D7AC8A600E722DF /* Unwrapped.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unwrapped.swift; sourceTree = "<group>"; };
 		726AA94D1D7ACEE000E722DF /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		726C52A51D7DB48300F9B7CA /* MetaModelTableInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaModelTableInfo.swift; sourceTree = "<group>"; };
+		726CCB001D830A930019E94C /* Constructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constructor.swift; sourceTree = "<group>"; };
 		7281D48A1D82863200D87D05 /* MetaModel iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MetaModel iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7281D48C1D82863200D87D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7281D48E1D82863200D87D05 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				726AA94D1D7ACEE000E722DF /* Format.swift */,
 				726C52A51D7DB48300F9B7CA /* MetaModelTableInfo.swift */,
 				7281D4A11D82B10700D87D05 /* Bool+Integer.swift */,
+				726CCB001D830A930019E94C /* Constructor.swift */,
 				72FAB8F11D7FAFD900F2BE43 /* SQLite */,
 			);
 			path = MetaModel;
@@ -355,6 +358,7 @@
 			files = (
 				726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */,
 				72FC2C951D6AB3ED00DEB0E0 /* MetaModel.swift in Sources */,
+				726CCB011D830A930019E94C /* Constructor.swift in Sources */,
 				72FAB9071D7FAFD900F2BE43 /* Value.swift in Sources */,
 				72FAB9011D7FAFD900F2BE43 /* Blob.swift in Sources */,
 				72FAB9021D7FAFD900F2BE43 /* Connection.swift in Sources */,
@@ -567,6 +571,7 @@
 				7281D49B1D82863200D87D05 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		72FC2C5D1D6AAE2F00DEB0E0 /* Build configuration list for PBXProject "MetaModel" */ = {
 			isa = XCConfigurationList;

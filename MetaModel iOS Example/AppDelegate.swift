@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  MetaModel iOS Example
 //
-//  Created by 左书祺 on 9/9/16.
+//  Created by Draveness on 9/9/16.
 //  Copyright © 2016 metamodel. All rights reserved.
 //
 

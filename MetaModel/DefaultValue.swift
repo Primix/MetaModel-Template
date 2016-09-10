@@ -11,4 +11,5 @@ import Foundation
 let IntDefaultValue = Int(INT64_MAX)
 let StringDefaultValue = "MModel.MetaModel.DefaultValue"
 let DoubleDefaultValue = Double.infinity
+let FloatDefaultValue = Float.infinity
 let NSDateDefaultValue = NSDate(timeIntervalSince1970: 0)

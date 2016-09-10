@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 //
 
-public protocol ExpressionType : Expressible { // extensions cannot have inheritance clauses
+protocol ExpressionType : Expressible { // extensions cannot have inheritance clauses
 
     associatedtype UnderlyingType = Void
 
@@ -35,36 +35,36 @@ public protocol ExpressionType : Expressible { // extensions cannot have inherit
 
 extension ExpressionType {
 
-    public init(literal: String) {
+    init(literal: String) {
         self.init(literal, [])
     }
 
-    public init(_ identifier: String) {
+    init(_ identifier: String) {
         self.init(literal: identifier.quote())
     }
 
-    public init<U : ExpressionType>(_ expression: U) {
+    init<U : ExpressionType>(_ expression: U) {
         self.init(expression.template, expression.bindings)
     }
 
 }
 
 /// An `Expression` represents a raw SQL fragment and any associated bindings.
-public struct Expression<Datatype> : ExpressionType {
+struct Expression<Datatype> : ExpressionType {
 
-    public typealias UnderlyingType = Datatype
+    typealias UnderlyingType = Datatype
 
-    public var template: String
-    public var bindings: [Binding?]
+    var template: String
+    var bindings: [Binding?]
 
-    public init(_ template: String, _ bindings: [Binding?]) {
+    init(_ template: String, _ bindings: [Binding?]) {
         self.template = template
         self.bindings = bindings
     }
 
 }
 
-public protocol Expressible {
+protocol Expressible {
 
     var expression: Expression<Void> { get }
 
@@ -72,7 +72,7 @@ public protocol Expressible {
 
 extension ExpressionType {
 
-    public var expression: Expression<Void> {
+    var expression: Expression<Void> {
         return Expression(template, bindings)
     }
 
@@ -80,7 +80,7 @@ extension ExpressionType {
 
 extension ExpressionType where UnderlyingType : Value {
 
-    public init(value: UnderlyingType) {
+    init(value: UnderlyingType) {
         self.init("?", [value.datatypeValue])
     }
 
@@ -88,11 +88,11 @@ extension ExpressionType where UnderlyingType : Value {
 
 extension ExpressionType where UnderlyingType : _OptionalType, UnderlyingType.WrappedType : Value {
 
-    public static var null: Self {
+    static var null: Self {
         return self.init(value: nil)
     }
 
-    public init(value: UnderlyingType.WrappedType?) {
+    init(value: UnderlyingType.WrappedType?) {
         self.init("?", [value?.datatypeValue])
     }
 
@@ -100,11 +100,11 @@ extension ExpressionType where UnderlyingType : _OptionalType, UnderlyingType.Wr
 
 extension Value {
 
-    public var expression: Expression<Void> {
+    var expression: Expression<Void> {
         return Expression(value: self).expression
     }
 
 }
 
-public let rowid = Expression<Int64>("ROWID")
+let rowid = Expression<Int64>("ROWID")
 

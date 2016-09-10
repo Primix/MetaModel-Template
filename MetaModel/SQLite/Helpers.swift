@@ -24,13 +24,13 @@
 
 import CSQLite
 
-public typealias Star = (Expression<Binding>?, Expression<Binding>?) -> Expression<Void>
+typealias Star = (Expression<Binding>?, Expression<Binding>?) -> Expression<Void>
 
-public func *(_: Expression<Binding>?, _: Expression<Binding>?) -> Expression<Void> {
+func *(_: Expression<Binding>?, _: Expression<Binding>?) -> Expression<Void> {
     return Expression(literal: "*")
 }
 
-public protocol _OptionalType {
+protocol _OptionalType {
 
     associatedtype WrappedType
 
@@ -38,7 +38,7 @@ public protocol _OptionalType {
 
 extension Optional : _OptionalType {
 
-    public typealias WrappedType = Wrapped
+    typealias WrappedType = Wrapped
 
 }
 

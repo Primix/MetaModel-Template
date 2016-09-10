@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 //
 
-public struct Row {
+struct Row {
 
     private let columnNames: [String: Int]
 
@@ -34,14 +34,14 @@ public struct Row {
     }
 
     /// Returns a row’s value for the given column.
-    ///
-    /// - Parameter column: An expression representing a column selected in a Query.
+    ///public
+    /// - Parameter column: An expression representing a column selecpublicted in a Query.
     ///
     /// - Returns: The value for the given column.
-    public func get<V: Value>(column: Expression<V>) -> V {
+    func get<V: Value>(column: Expression<V>) -> V {
         return get(Expression<V?>(column))!
     }
-    public func get<V: Value>(column: Expression<V?>) -> V? {
+    func get<V: Value>(column: Expression<V?>) -> V? {
         func valueAtIndex(idx: Int) -> V? {
             guard let value = values[idx] as? V.Datatype else { return nil }
             return (V.fromDatatypeValue(value) as? V)!
@@ -65,45 +65,45 @@ public struct Row {
 
     // FIXME: rdar://problem/18673897 // subscript<T>…
 
-    public subscript(column: Expression<Blob>) -> Blob {
+    subscript(column: Expression<Blob>) -> Blob {
         return get(column)
     }
-    public subscript(column: Expression<Blob?>) -> Blob? {
-        return get(column)
-    }
-
-    public subscript(column: Expression<Bool>) -> Bool {
-        return get(column)
-    }
-    public subscript(column: Expression<Bool?>) -> Bool? {
+    subscript(column: Expression<Blob?>) -> Blob? {
         return get(column)
     }
 
-    public subscript(column: Expression<Double>) -> Double {
+    subscript(column: Expression<Bool>) -> Bool {
         return get(column)
     }
-    public subscript(column: Expression<Double?>) -> Double? {
-        return get(column)
-    }
-
-    public subscript(column: Expression<Int>) -> Int {
-        return get(column)
-    }
-    public subscript(column: Expression<Int?>) -> Int? {
+    subscript(column: Expression<Bool?>) -> Bool? {
         return get(column)
     }
 
-    public subscript(column: Expression<Int64>) -> Int64 {
+    subscript(column: Expression<Double>) -> Double {
         return get(column)
     }
-    public subscript(column: Expression<Int64?>) -> Int64? {
+    subscript(column: Expression<Double?>) -> Double? {
         return get(column)
     }
 
-    public subscript(column: Expression<String>) -> String {
+    subscript(column: Expression<Int>) -> Int {
         return get(column)
     }
-    public subscript(column: Expression<String?>) -> String? {
+    subscript(column: Expression<Int?>) -> Int? {
+        return get(column)
+    }
+
+    subscript(column: Expression<Int64>) -> Int64 {
+        return get(column)
+    }
+    subscript(column: Expression<Int64?>) -> Int64? {
+        return get(column)
+    }
+
+    subscript(column: Expression<String>) -> String {
+        return get(column)
+    }
+    subscript(column: Expression<String?>) -> String? {
         return get(column)
     }
 

@@ -29,9 +29,9 @@
 ///   protocol, instead.
 public protocol Binding {}
 
-public protocol Number : Binding {}
+protocol Number : Binding {}
 
-public protocol Value : Expressible { // extensions cannot have inheritance clauses
+protocol Value : Expressible { // extensions cannot have inheritance clauses
 
     associatedtype ValueType = Self
 
@@ -47,13 +47,13 @@ public protocol Value : Expressible { // extensions cannot have inheritance clau
 
 extension Double : Number, Value {
 
-    public static let declaredDatatype = "REAL"
+    static let declaredDatatype = "REAL"
 
-    public static func fromDatatypeValue(datatypeValue: Double) -> Double {
+    static func fromDatatypeValue(datatypeValue: Double) -> Double {
         return datatypeValue
     }
 
-    public var datatypeValue: Double {
+    var datatypeValue: Double {
         return self
     }
 
@@ -61,13 +61,13 @@ extension Double : Number, Value {
 
 extension Int64 : Number, Value {
 
-    public static let declaredDatatype = "INTEGER"
+    static let declaredDatatype = "INTEGER"
 
-    public static func fromDatatypeValue(datatypeValue: Int64) -> Int64 {
+    static func fromDatatypeValue(datatypeValue: Int64) -> Int64 {
         return datatypeValue
     }
 
-    public var datatypeValue: Int64 {
+    var datatypeValue: Int64 {
         return self
     }
 
@@ -75,13 +75,13 @@ extension Int64 : Number, Value {
 
 extension String : Binding, Value {
 
-    public static let declaredDatatype = "TEXT"
+    static let declaredDatatype = "TEXT"
 
-    public static func fromDatatypeValue(datatypeValue: String) -> String {
+    static func fromDatatypeValue(datatypeValue: String) -> String {
         return datatypeValue
     }
 
-    public var datatypeValue: String {
+    var datatypeValue: String {
         return self
     }
 
@@ -89,13 +89,13 @@ extension String : Binding, Value {
 
 extension Blob : Binding, Value {
 
-    public static let declaredDatatype = "BLOB"
+    static let declaredDatatype = "BLOB"
 
-    public static func fromDatatypeValue(datatypeValue: Blob) -> Blob {
+    static func fromDatatypeValue(datatypeValue: Blob) -> Blob {
         return datatypeValue
     }
 
-    public var datatypeValue: Blob {
+    var datatypeValue: Blob {
         return self
     }
 
@@ -105,13 +105,13 @@ extension Blob : Binding, Value {
 
 extension Bool : Binding, Value {
 
-    public static var declaredDatatype = Int64.declaredDatatype
+    static var declaredDatatype = Int64.declaredDatatype
 
-    public static func fromDatatypeValue(datatypeValue: Int64) -> Bool {
+    static func fromDatatypeValue(datatypeValue: Int64) -> Bool {
         return datatypeValue != 0
     }
 
-    public var datatypeValue: Int64 {
+    var datatypeValue: Int64 {
         return self ? 1 : 0
     }
 
@@ -119,13 +119,13 @@ extension Bool : Binding, Value {
 
 extension Int : Number, Value {
 
-    public static var declaredDatatype = Int64.declaredDatatype
+    static var declaredDatatype = Int64.declaredDatatype
 
-    public static func fromDatatypeValue(datatypeValue: Int64) -> Int {
+    static func fromDatatypeValue(datatypeValue: Int64) -> Int {
         return Int(datatypeValue)
     }
 
-    public var datatypeValue: Int64 {
+    var datatypeValue: Int64 {
         return Int64(self)
     }
 

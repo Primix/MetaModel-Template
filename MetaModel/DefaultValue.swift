@@ -8,7 +8,7 @@
 
 import Foundation
 
-let IntDefaultValue = Int(INT64_MAX)
+let IntDefaultValue = Int.max
 let StringDefaultValue = "MModel.MetaModel.DefaultValue"
 let DoubleDefaultValue = Double.infinity
 let FloatDefaultValue = Float.infinity

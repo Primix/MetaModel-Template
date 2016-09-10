@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		723139F51D83E6D60043DAE7 /* DefaultValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723139F41D83E6D60043DAE7 /* DefaultValue.swift */; };
 		726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94A1D7AC8A600E722DF /* Unwrapped.swift */; };
 		726AA94E1D7ACEE000E722DF /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94D1D7ACEE000E722DF /* Format.swift */; };
 		726C52A61D7DB48300F9B7CA /* MetaModelTableInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726C52A51D7DB48300F9B7CA /* MetaModelTableInfo.swift */; };
@@ -63,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		723139F41D83E6D60043DAE7 /* DefaultValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultValue.swift; sourceTree = "<group>"; };
 		726AA94A1D7AC8A600E722DF /* Unwrapped.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unwrapped.swift; sourceTree = "<group>"; };
 		726AA94D1D7ACEE000E722DF /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		726C52A51D7DB48300F9B7CA /* MetaModelTableInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaModelTableInfo.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				726C52A51D7DB48300F9B7CA /* MetaModelTableInfo.swift */,
 				7281D4A11D82B10700D87D05 /* Bool+Integer.swift */,
 				726CCB001D830A930019E94C /* Constructor.swift */,
+				723139F41D83E6D60043DAE7 /* DefaultValue.swift */,
 				72FAB8F11D7FAFD900F2BE43 /* SQLite */,
 			);
 			path = MetaModel;
@@ -363,6 +366,7 @@
 				72FAB9011D7FAFD900F2BE43 /* Blob.swift in Sources */,
 				72FAB9021D7FAFD900F2BE43 /* Connection.swift in Sources */,
 				72FAB9411D7FB3D900F2BE43 /* Expression.swift in Sources */,
+				723139F51D83E6D60043DAE7 /* DefaultValue.swift in Sources */,
 				726AA94E1D7ACEE000E722DF /* Format.swift in Sources */,
 				72FAB9051D7FAFD900F2BE43 /* SQLite-Bridging.m in Sources */,
 				728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */,

@@ -8,11 +8,7 @@
 
 import Foundation
 
-public protocol Recordable {
-    init(values: Array<Optional<Binding>>)
-}
-
-public class Relation<T: Recordable> {
+public class Relation<T> {
     private var complete: Bool = false
     var select: String = ""
     var filter: [String] = []
@@ -36,12 +32,7 @@ public class Relation<T: Recordable> {
 
     var result: [T] {
         get {
-            var models: [T] = []
-            guard let stmt = executeSQL(query) else { return models }
-            for values in stmt {
-                models.append(T(values: values))
-            }
-            return models
+            return []
         }
     }
 

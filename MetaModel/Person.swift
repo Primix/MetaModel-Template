@@ -51,7 +51,7 @@ extension Person {
     }
 }
 
-extension Person: Recordable {
+extension Person {
     public init(values: Array<Optional<Binding>>) {
         let id: Int64 = values[1] as! Int64
         let name: String? = values[2] as! String?

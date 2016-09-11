@@ -14,9 +14,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Person.create(1, name: "Draven", email: "stark.draven@gmail.com")
-        
-        print(Person.all)
+        Article.create(id: 1, title: "TItle", content: "Hello", createdAt: NSDate())
+
+        for article in Article.all {
+            print(article)
+        }
     }
 
 

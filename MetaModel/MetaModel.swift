@@ -22,10 +22,15 @@ public class MetaModel {
     static func validateMetaModelTables() {
         createMetaModelTable()
         let infos = retrieveMetaModelTableInfos()
-        if infos[Person.tableName] != "daadaadssada" {
-            updateMetaModelTableInfos(Person.tableName, hashValue: "daadaadssada")
-            Person.deinitialize()
-            Person.initialize()
+        if infos[Article.tableName] != "179e895bda1bdfc9" {
+            updateMetaModelTableInfos(Article.tableName, hashValue: "179e895bda1bdfc9")
+            Article.deinitialize()
+            Article.initialize()
+        }
+        if infos[Comment.tableName] != "-3f9a0d7eb5238992" {
+            updateMetaModelTableInfos(Comment.tableName, hashValue: "-3f9a0d7eb5238992")
+            Comment.deinitialize()
+            Comment.initialize()
         }
     }
 }

@@ -22,6 +22,8 @@ extension Int: Unwrapped { }
 
 extension Double: Unwrapped { }
 
+extension Float: Unwrapped { }
+
 extension String: Unwrapped {
     var unwrapped: String {
         return "\"\(self)\""

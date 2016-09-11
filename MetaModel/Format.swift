@@ -19,3 +19,9 @@ extension Double {
         return String(format: "%\(f)f", self)
     }
 }
+
+extension Float {
+    func format(f: String) -> String {
+        return String(format: "%\(f)f", self)
+    }
+}

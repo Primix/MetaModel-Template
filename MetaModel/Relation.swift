@@ -36,12 +36,6 @@ public class Relation<T> {
         }
     }
 
-    public subscript(index: Int) -> T {
-        get {
-            return result[index]
-        }
-    }
-
     public var all: Relation<T> {
         get {
             return self
@@ -65,6 +59,38 @@ public class Relation<T> {
             self.offset = "OFFSET \(offset)"
         }
         return self
+    }
+}
+
+extension Relation: SequenceType {
+    public typealias Generator = AnyGenerator<T>
+
+    public func generate() -> Generator {
+        var index = 0
+        return AnyGenerator {
+            if index < self.result.count {
+                let element = self.result[index]
+                index += 1
+                return element
+            }
+            return nil
+        }
+    }
+}
+
+extension Relation: CollectionType {
+    public typealias Index = Int
+
+    public var startIndex: Int {
+        return 0
+    }
+
+    public var endIndex: Int {
+        return self.result.count
+    }
+
+    public subscript(index: Int) -> T {
+        return self.result[index]
     }
 }
 

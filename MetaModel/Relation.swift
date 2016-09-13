@@ -60,6 +60,10 @@ public class Relation<T> {
         }
         return self
     }
+    
+    public func take(length: UInt) -> Self {
+        return self.limit(length)
+    }
 }
 
 extension Relation: SequenceType {

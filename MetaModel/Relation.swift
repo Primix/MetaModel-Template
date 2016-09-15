@@ -100,6 +100,12 @@ extension Relation: CollectionType {
 
 extension Relation: CustomStringConvertible {
     public var description: String {
-        return result.description
+        let desc: NSString = result.description
+        let content: String = desc
+            .substringWithRange(NSRange(location: 1, length: result.description.characters.count - 2))
+            .componentsSeparatedByString("), ")
+            .joinWithSeparator("), \n\t")
+
+        return "[\n\t\(content)\n]".stringByReplacingOccurrencesOfString("MetaModel.", withString: "")
     }
 }

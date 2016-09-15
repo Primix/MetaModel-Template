@@ -24,17 +24,9 @@ extension Double: Unwrapped { }
 
 extension Float: Unwrapped { }
 
-extension String: Unwrapped {
-    var unwrapped: String {
-        return "\"\(self)\""
-    }
-}
+extension String: Unwrapped { }
 
-extension Bool: Unwrapped {
-    var unwrapped: String {
-        return "\(self)"
-    }
-}
+extension Bool: Unwrapped { }
 
 extension NSDate: Unwrapped {
     var unwrapped: String {

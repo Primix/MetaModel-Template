@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		722195451D8970960041F45A /* ArticleCommentAssociation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722195441D8970960041F45A /* ArticleCommentAssociation.swift */; };
 		723139F51D83E6D60043DAE7 /* DefaultValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723139F41D83E6D60043DAE7 /* DefaultValue.swift */; };
 		726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94A1D7AC8A600E722DF /* Unwrapped.swift */; };
 		726AA94E1D7ACEE000E722DF /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726AA94D1D7ACEE000E722DF /* Format.swift */; };
@@ -65,6 +66,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		722195441D8970960041F45A /* ArticleCommentAssociation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleCommentAssociation.swift; sourceTree = "<group>"; };
 		723139F41D83E6D60043DAE7 /* DefaultValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultValue.swift; sourceTree = "<group>"; };
 		726AA94A1D7AC8A600E722DF /* Unwrapped.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unwrapped.swift; sourceTree = "<group>"; };
 		726AA94D1D7ACEE000E722DF /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
@@ -122,6 +124,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		722195431D8970810041F45A /* Associations */ = {
+			isa = PBXGroup;
+			children = (
+				722195441D8970960041F45A /* ArticleCommentAssociation.swift */,
+			);
+			name = Associations;
+			sourceTree = "<group>";
+		};
 		72590A751D6EF88900BF91F7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +222,7 @@
 		72FC2C651D6AAE2F00DEB0E0 /* MetaModel */ = {
 			isa = PBXGroup;
 			children = (
+				722195431D8970810041F45A /* Associations */,
 				72590A751D6EF88900BF91F7 /* Models */,
 				72FC2C941D6AB3ED00DEB0E0 /* MetaModel.swift */,
 				728FA3051D6C0EBF00F2E4CF /* Relation.swift */,
@@ -364,6 +375,7 @@
 			files = (
 				726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */,
 				72FC2C951D6AB3ED00DEB0E0 /* MetaModel.swift in Sources */,
+				722195451D8970960041F45A /* ArticleCommentAssociation.swift in Sources */,
 				726CCB011D830A930019E94C /* Constructor.swift in Sources */,
 				72FAB9071D7FAFD900F2BE43 /* Value.swift in Sources */,
 				72FAB9011D7FAFD900F2BE43 /* Blob.swift in Sources */,

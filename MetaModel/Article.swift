@@ -321,18 +321,18 @@ public extension Article {
 // MARK: - Association
 
 public extension Article {
-    func appendComment(element: Comment) {
-        var element = element
-        element.update(articleId: id)
-    }
-
-    func createComment(id id: Int = 0, content: String) -> Comment? {
-        return Comment.create(id: id, content: content, articleId: self.id)
-    }
-
-    func deleteComment(id: Int) {
-        Comment.findBy(articleId: id).first?.delete
-    }
+//    func appendComment(element: Comment) {
+//        var element = element
+//        element.update(articleId: id)
+//    }
+//
+//    func createComment(id id: Int = 0, content: String) -> Comment? {
+//        return Comment.create(id: id, content: content, articleId: self.id)
+//    }
+//
+//    func deleteComment(id: Int) {
+//        Comment.findBy(articleId: id).first?.delete
+//    }
     var comments: [Comment] {
         get {
             return Comment.filter(id: id).result

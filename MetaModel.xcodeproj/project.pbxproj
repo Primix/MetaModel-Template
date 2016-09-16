@@ -21,6 +21,7 @@
 		7281D49C1D82863C00D87D05 /* MetaModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72FC2C631D6AAE2F00DEB0E0 /* MetaModel.framework */; };
 		7281D49D1D82863C00D87D05 /* MetaModel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 72FC2C631D6AAE2F00DEB0E0 /* MetaModel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		728FA3061D6C0EBF00F2E4CF /* Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728FA3051D6C0EBF00F2E4CF /* Relation.swift */; };
+		7293611A1D8B9F2600F96322 /* Packing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729361191D8B9F2600F96322 /* Packing.swift */; };
 		72C696101D858FCF00D7DC24 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C6960E1D858FCF00D7DC24 /* Article.swift */; };
 		72C696111D858FCF00D7DC24 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C6960F1D858FCF00D7DC24 /* Comment.swift */; };
 		72C696131D8590FF00D7DC24 /* SQLBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C696121D8590FF00D7DC24 /* SQLBridge.swift */; };
@@ -80,6 +81,7 @@
 		7281D4961D82863200D87D05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7281D4981D82863200D87D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		728FA3051D6C0EBF00F2E4CF /* Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relation.swift; sourceTree = "<group>"; };
+		729361191D8B9F2600F96322 /* Packing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Packing.swift; sourceTree = "<group>"; };
 		72C6960E1D858FCF00D7DC24 /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		72C6960F1D858FCF00D7DC24 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		72C696121D8590FF00D7DC24 /* SQLBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLBridge.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				726CCB001D830A930019E94C /* Constructor.swift */,
 				723139F41D83E6D60043DAE7 /* DefaultValue.swift */,
 				72C696121D8590FF00D7DC24 /* SQLBridge.swift */,
+				729361191D8B9F2600F96322 /* Packing.swift */,
 				72FAB8F11D7FAFD900F2BE43 /* SQLite */,
 			);
 			path = MetaModel;
@@ -374,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				726AA94B1D7AC8A600E722DF /* Unwrapped.swift in Sources */,
+				7293611A1D8B9F2600F96322 /* Packing.swift in Sources */,
 				72FC2C951D6AB3ED00DEB0E0 /* MetaModel.swift in Sources */,
 				722195451D8970960041F45A /* ArticleCommentAssociation.swift in Sources */,
 				726CCB011D830A930019E94C /* Constructor.swift in Sources */,

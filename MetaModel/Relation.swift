@@ -100,8 +100,8 @@ extension Relation: CollectionType {
 
 extension Relation: CustomStringConvertible {
     public var description: String {
-        var desc: NSString = result.description
-        var content: String = desc
+        let desc: NSString = result.description
+        let content: String = desc
             .substringWithRange(NSRange(location: 1, length: result.description.characters.count - 2))
             .componentsSeparatedByString("), ")
             .joinWithSeparator("), \n\t")

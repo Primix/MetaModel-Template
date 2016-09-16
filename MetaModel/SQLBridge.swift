@@ -8,6 +8,12 @@
 
 import Foundation
 
+let path = NSSearchPathForDirectoriesInDomains(
+    .DocumentDirectory, .UserDomainMask, true
+    ).first! as String
+
+let db =  try! Connection("\(path)/metamodel_db.sqlite3")
+
 func executeSQL(sql: String, verbose: Bool = false, suppress: Bool = false, success: (() -> ())? = nil) -> Statement? {
     let startDate = NSDate()
     do {

@@ -10,52 +10,50 @@ import Foundation
 
 extension Article {
     static func initialize() {
-        let initializeTableSQL = "CREATE TABLE articles(_id INTEGER PRIMARY KEY, id INTEGER UNIQUE DEFAULT 0, title TEXT, content TEXT, createdAt REAL);"
+        let initializeTableSQL = "CREATE TABLE articles(private_id INTEGER PRIMARY KEY, title TEXT, content TEXT, created_at REAL);"
         executeSQL(initializeTableSQL)
     }
     static func deinitialize() {
-        let dropTableSQL = "DROP TABLE \(tableName.unwrapped)"
+        let dropTableSQL = "DROP TABLE \(tableName)"
         executeSQL(dropTableSQL)
     }
 }
 
 public struct Article {
-    public var id: Int
+    var privateId: Int = 0
     public var title: String
     public var content: String
-    public var createdAt: NSDate
+    public var createdAt: Date
     
     static let tableName = "articles"
 
-    public enum Column: String, Unwrapped {
-        case id = "id"
+    public enum Column: String, CustomStringConvertible {
         case title = "title"
         case content = "content"
-        case createdAt = "createdAt"
+        case createdAt = "created_at"
         
-        var unwrapped: String { get { return self.rawValue.unwrapped } }
+        case privateId = "private_id"
+
+        public var description: String { get { return self.rawValue } }
     }
 
-    public init(id: Int = 0, title: String, content: String, createdAt: NSDate) {
-        self.id = id
+    public init(title: String, content: String, createdAt: Date) {
         self.title = title
         self.content = content
         self.createdAt = createdAt
         
     }
 
-    static public func new(id id: Int = 0, title: String, content: String, createdAt: NSDate) -> Article {
-        return Article(id: id, title: title, content: content, createdAt: createdAt)
+    @discardableResult static public func new(title: String, content: String, createdAt: Date) -> Article {
+        return Article(title: title, content: content, createdAt: createdAt)
     }
 
-    static public func create(id id: Int = 0, title: String, content: String, createdAt: NSDate) -> Article? {
-        if id == 0 { return nil }
+    @discardableResult static public func create(title: String, content: String, createdAt: Date) -> Article? {
+        //if false == true { return nil }
 
         var columnsSQL: [Article.Column] = []
         var valuesSQL: [Unwrapped] = []
 
-        columnsSQL.append(.id)
-        valuesSQL.append(id)
         
         columnsSQL.append(.title)
         valuesSQL.append(title)
@@ -66,55 +64,57 @@ public struct Article {
         columnsSQL.append(.createdAt)
         valuesSQL.append(createdAt)
         
-        let insertSQL = "INSERT INTO \(tableName.unwrapped) (\(columnsSQL.map { $0.rawValue }.joinWithSeparator(", "))) VALUES (\(valuesSQL.map { $0.unwrapped }.joinWithSeparator(", ")))"
-        guard let _ = executeSQL(insertSQL) else { return nil }
-        return Article(id: id, title: title, content: content, createdAt: createdAt)
+        let insertSQL = "INSERT INTO \(tableName) (\(columnsSQL.map { $0.rawValue }.joined(separator: ", "))) VALUES (\(valuesSQL.map { $0.unwrapped }.joined(separator: ", ")))"
+        guard let _ = executeSQL(insertSQL),
+          let lastInsertRowId = executeScalarSQL("SELECT last_insert_rowid();") as? Int64 else { return nil }
+        var result = Article(title: title, content: content, createdAt: createdAt)
+        result.privateId = Int(lastInsertRowId)
+        return result
     }
 }
 
 // MARK: - Update
 
 public extension Article {
-    mutating func update(title title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: NSDate = NSDateDefaultValue) -> Article {
+    @discardableResult mutating func update(title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: Date = DateDefaultValue) {
         var attributes: [Article.Column: Any] = [:]
         if (title != StringDefaultValue) { attributes[.title] = title }
         if (content != StringDefaultValue) { attributes[.content] = content }
-        if (createdAt != NSDateDefaultValue) { attributes[.createdAt] = createdAt }
-        return self.update(attributes)
+        if (createdAt != DateDefaultValue) { attributes[.createdAt] = createdAt }
+        
+        self.update(attributes: attributes)
     }
 
-    mutating func update(attributes: [Article.Column: Any]) -> Article {
+    @discardableResult mutating func update(attributes: [Article.Column: Any]) {
         var setSQL: [String] = []
         if let attributes = attributes as? [Article.Column: Unwrapped] {
             for (key, value) in attributes {
                 switch key {
-                case .title: setSQL.append("\(key.unwrapped) = \(value.unwrapped)")
-                case .content: setSQL.append("\(key.unwrapped) = \(value.unwrapped)")
-                case .createdAt: setSQL.append("\(key.unwrapped) = \(value.unwrapped)")
+                case .title: setSQL.append("\(key) = \(value.unwrapped)")
+                case .content: setSQL.append("\(key) = \(value.unwrapped)")
+                case .createdAt: setSQL.append("\(key) = \(value.unwrapped)")
                 default: break
                 }
             }
-            let updateSQL = "UPDATE \(Article.tableName.unwrapped) SET \(setSQL.joinWithSeparator(", ")) \(itself)"
-            executeSQL(updateSQL) {
-                for (key, value) in attributes {
-                    switch key {
-                    case .title: self.title = value as! String
-                    case .content: self.content = value as! String
-                    case .createdAt: self.createdAt = value as! NSDate
-                    default: break
-                    }
+            let updateSQL = "UPDATE \(Article.tableName) SET \(setSQL.joined(separator: ", ")) \(itself)"
+            guard let _ = executeSQL(updateSQL) else { return }
+            for (key, value) in attributes {
+                switch key {
+                case .title: title = value as! String
+                case .content: content = value as! String
+                case .createdAt: createdAt = value as! Date
+                default: break
                 }
             }
         }
-        return self
     }
 
     var save: Article {
         mutating get {
-            if let _ = Article.find(id) {
-                update([.id: id, .title: title, .content: content, .createdAt: createdAt])
+            if let _ = Article.find(privateId) {
+                update(attributes: [.title: title, .content: content, .createdAt: createdAt])
             } else {
-                Article.create(id: id, title: title, content: content, createdAt: createdAt)
+                Article.create(title: title, content: content, createdAt: createdAt)
             }
             return self
         }
@@ -128,11 +128,21 @@ public extension Article {
 }
 
 public extension ArticleRelation {
-    public func updateAll(column: Article.Column, value: Any) {
-        self.result.forEach { (element) in
+    @discardableResult public func updateAll(title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: Date = DateDefaultValue) -> Self {
+        return update(title: title, content: content, createdAt: createdAt)
+    }
+
+    @discardableResult public func update(title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: Date = DateDefaultValue) -> Self {
+        var attributes: [Article.Column: Any] = [:]
+        if (title != StringDefaultValue) { attributes[.title] = title }
+        if (content != StringDefaultValue) { attributes[.content] = content }
+        if (createdAt != DateDefaultValue) { attributes[.createdAt] = createdAt }
+        
+        result.forEach { (element) in
             var element = element
-            element.update([column: value])
+            element.update(attributes: attributes)
         }
+        return self
     }
 }
 
@@ -145,39 +155,38 @@ public extension Article {
 
     static var first: Article? {
         get {
-            return ArticleRelation().orderBy(.id, asc: true).first
+            return ArticleRelation().orderBy(column: .privateId, asc: true).first
         }
     }
 
     static var last: Article? {
         get {
-            return ArticleRelation().orderBy(.id, asc: false).first
+            return ArticleRelation().orderBy(column: .privateId, asc: false).first
         }
     }
 
     static func first(length: UInt) -> ArticleRelation {
-        return ArticleRelation().orderBy(.id, asc: true).limit(length)
+        return ArticleRelation().orderBy(column: .privateId, asc: true).limit(length)
     }
 
     static func last(length: UInt) -> ArticleRelation {
-        return ArticleRelation().orderBy(.id, asc: false).limit(length)
+        return ArticleRelation().orderBy(column: .privateId, asc: false).limit(length)
     }
 
-    static func find(id: Int) -> Article? {
-        return ArticleRelation().find(id).first
+    internal static func find(_ privateId: Int) -> Article? {
+        return ArticleRelation().find(privateId).first
     }
 
-    static func findBy(id id: Int = IntDefaultValue, title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: NSDate = NSDateDefaultValue) -> ArticleRelation {
-        var attributes: [Article.Column: Any] = [:]
-        if (id != IntDefaultValue) { attributes[.id] = id }
-        if (title != StringDefaultValue) { attributes[.title] = title }
-        if (content != StringDefaultValue) { attributes[.content] = content }
-        if (createdAt != NSDateDefaultValue) { attributes[.createdAt] = createdAt }
-        return ArticleRelation().filter(attributes)
+    internal static func find(_ privateIds: [Int]) -> ArticleRelation {
+        return ArticleRelation().find(privateIds)
     }
 
-    static func filter(id id: Int = IntDefaultValue, title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: NSDate = NSDateDefaultValue) -> ArticleRelation {
-        return findBy(id: id, title: title, content: content, createdAt: createdAt)
+    static func findBy(title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: Date = DateDefaultValue) -> ArticleRelation {
+        return ArticleRelation().findBy(title: title, content: content, createdAt: createdAt)
+    }
+
+    static func filter(title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: Date = DateDefaultValue) -> ArticleRelation {
+        return ArticleRelation().filter(title: title, content: content, createdAt: createdAt)
     }
 
     static func limit(length: UInt, offset: UInt = 0) -> ArticleRelation {
@@ -185,7 +194,7 @@ public extension Article {
     }
 
     static func take(length: UInt) -> ArticleRelation {
-        return limit(length)
+        return ArticleRelation().limit(length)
     }
 
     static func offset(offset: UInt) -> ArticleRelation {
@@ -193,60 +202,55 @@ public extension Article {
     }
 
     static func groupBy(columns: Article.Column...) -> ArticleRelation {
-        return ArticleRelation().groupBy(columns)
+        return ArticleRelation().groupBy(columns: columns)
     }
 
     static func groupBy(columns: [Article.Column]) -> ArticleRelation {
-        return ArticleRelation().groupBy(columns)
+        return ArticleRelation().groupBy(columns: columns)
     }
 
     static func orderBy(column: Article.Column) -> ArticleRelation {
-        return ArticleRelation().orderBy(column)
+        return ArticleRelation().orderBy(column: column)
     }
 
     static func orderBy(column: Article.Column, asc: Bool) -> ArticleRelation {
-        return ArticleRelation().orderBy(column, asc: asc)
+        return ArticleRelation().orderBy(column: column, asc: asc)
     }
 }
 
 public extension ArticleRelation {
-    func find(id: Int) -> Self {
-        return findBy(id: id)
-    }
-
-    func findBy(id id: Int = IntDefaultValue, title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: NSDate = NSDateDefaultValue) -> Self {
+    func findBy(title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: Date = DateDefaultValue) -> Self {
         var attributes: [Article.Column: Any] = [:]
-        if (id != IntDefaultValue) { attributes[.id] = id }
         if (title != StringDefaultValue) { attributes[.title] = title }
         if (content != StringDefaultValue) { attributes[.content] = content }
-        if (createdAt != NSDateDefaultValue) { attributes[.createdAt] = createdAt }
-        return self.filter(attributes)
+        if (createdAt != DateDefaultValue) { attributes[.createdAt] = createdAt }
+        return self.filter(conditions: attributes)
     }
 
-    func filter(id id: Int = IntDefaultValue, title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: NSDate = NSDateDefaultValue) -> Self {
-        return findBy(id: id, title: title, content: content, createdAt: createdAt)
+    func filter(title: String = StringDefaultValue, content: String = StringDefaultValue, createdAt: Date = DateDefaultValue) -> Self {
+        return findBy(title: title, content: content, createdAt: createdAt)
     }
 
     func filter(conditions: [Article.Column: Any]) -> Self {
         for (column, value) in conditions {
             let columnSQL = "\(expandColumn(column))"
 
-            func filterByEqual(value: Any) {
+            func filterByEqual(_ value: Any) {
                 self.filter.append("\(columnSQL) = \(value)")
             }
 
-            func filterByIn(value: [String]) {
-                self.filter.append("\(columnSQL) IN (\(value.joinWithSeparator(", ")))")
+            func filterByIn(_ value: [String]) {
+                self.filter.append("\(columnSQL) IN (\(value.joined(separator: ", ")))")
             }
 
             if let value = value as? String {
-                filterByEqual(value.unwrapped)
+                filterByEqual(value)
             } else if let value = value as? Int {
                 filterByEqual(value)
             } else if let value = value as? Double {
                 filterByEqual(value)
             } else if let value = value as? [String] {
-                filterByIn(value.map { $0.unwrapped })
+                filterByIn(value.map { $0 })
             } else if let value = value as? [Int] {
                 filterByIn(value.map { $0.description })
             } else if let value = value as? [Double] {
@@ -261,7 +265,7 @@ public extension ArticleRelation {
     }
 
     func groupBy(columns: Article.Column...) -> Self {
-        return self.groupBy(columns)
+        return self.groupBy(columns: columns)
     }
 
     func groupBy(columns: [Article.Column]) -> Self {
@@ -278,7 +282,7 @@ public extension ArticleRelation {
     }
 
     func orderBy(column: Article.Column, asc: Bool) -> Self {
-        self.order.append("\(expandColumn(column)) \(asc ? "ASC".unwrapped : "DESC".unwrapped)")
+        self.order.append("\(expandColumn(column)) \(asc ? "ASC" : "DESC")")
         return self
     }
 }
@@ -288,18 +292,17 @@ public extension ArticleRelation {
 public extension Article {
     var delete: Bool {
         get {
-            let deleteSQL = "DELETE FROM \(Article.tableName.unwrapped) \(itself)"
+            let deleteSQL = "DELETE FROM \(Article.tableName) \(itself)"
             executeSQL(deleteSQL)
             return true
         }
     }
-    static func deleteAll() {
-        let deleteAllSQL = "DELETE FROM \(tableName.unwrapped)"
-        executeSQL(deleteAllSQL)
-    }
+    static var deleteAll: Bool { get { return ArticleRelation().deleteAll } }
 }
 
 public extension ArticleRelation {
+    var delete: Bool { get { return deleteAll } }
+
     var deleteAll: Bool {
         get {
             self.result.forEach { $0.delete }
@@ -311,80 +314,47 @@ public extension ArticleRelation {
 public extension Article {
     static var count: Int {
         get {
-            let countSQL = "SELECT count(*) FROM \(tableName.unwrapped)"
+            let countSQL = "SELECT count(*) FROM \(tableName)"
             guard let count = executeScalarSQL(countSQL) as? Int64 else { return 0 }
             return Int(count)
         }
     }
 }
 
-// MARK: - Association
-
-public extension Article {
-//    func appendComment(element: Comment) {
-//        var element = element
-//        element.update(articleId: id)
-//    }
-//
-//    func createComment(id id: Int = 0, content: String) -> Comment? {
-//        return Comment.create(id: id, content: content, articleId: self.id)
-//    }
-//
-//    func deleteComment(id: Int) {
-//        Comment.findBy(articleId: id).first?.delete
-//    }
-    var comments: [Comment] {
-        get {
-            return Comment.filter(id: id).result
-        }
-        set {
-            comments.forEach { (element) in
-                var element = element
-                element.update(articleId: 0)
-            }
-            newValue.forEach { (element) in
-                var element = element
-                element.update(articleId: id)
-            }
-        }
-    }
-}
-
 // MAKR: - Helper
 
-public class ArticleRelation: Relation<Article> {
+open class ArticleRelation: Relation<Article> {
     override init() {
         super.init()
-        self.select = "SELECT \(Article.tableName.unwrapped).* FROM \(Article.tableName.unwrapped)"
+        self.select = "SELECT \(Article.tableName).* FROM \(Article.tableName)"
     }
 
     override var result: [Article] {
         get {
-            var models: [Article] = []
-            guard let stmt = executeSQL(query) else { return models }
-            for values in stmt {
-                models.append(Article(values: values))
-            }
-            return models
+            return MetaModels.fromQuery(query)
         }
     }
 
-    func expandColumn(column: Article.Column) -> String {
-        return "\(Article.tableName.unwrapped).\(column.unwrapped)"
+    func expandColumn(_ column: Article.Column) -> String {
+        return "\(Article.tableName).\(column)"
     }
 }
 
 extension Article {
-    init(values: Array<Optional<Binding>>) {
-        let id: Int64 = values[1] as! Int64
-        let title: String = values[2] as! String
-        let content: String = values[3] as! String
-        let createdAt: Double = values[4] as! Double
-        
-        self.init(id: Int(id), title: String(title), content: String(content), createdAt: NSDate(createdAt))
-    }
+    var itself: String { get { return "WHERE \(Article.tableName).private_id = \(privateId)" } }
 }
 
-extension Article {
-    var itself: String { get { return "WHERE \(Article.tableName.unwrapped).\("id".unwrapped) = \(id)" } }
+extension ArticleRelation {
+    func find(_ privateId: Int) -> Self {
+        return filter(privateId)
+    }
+
+    func find(_ privateIds: [Int]) -> Self {
+        return filter(conditions: [.privateId: privateIds])
+    }
+
+    func filter(_ privateId: Int) -> Self {
+        self.filter.append("private_id = \(privateId)")
+        return self
+    }
 }

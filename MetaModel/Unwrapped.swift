@@ -32,7 +32,7 @@ extension String: Unwrapped {
     }
 }
 
-extension NSDate: Unwrapped {
+extension Date: Unwrapped {
     var unwrapped: String {
         return "\(self.timeIntervalSince1970)"
     }

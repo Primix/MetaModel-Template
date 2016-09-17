@@ -8,8 +8,8 @@
 
 import Foundation
 
-public class Relation<T> {
-    private var complete: Bool = false
+open class Relation<T> {
+    fileprivate var complete: Bool = false
     var select: String = ""
     var filter: [String] = []
     var order: [String] = []
@@ -20,13 +20,13 @@ public class Relation<T> {
     var query: String {
         get {
             let selectClouse = select
-            let whereClouse = filter.count == 0 ? "" : "WHERE \(filter.joinWithSeparator(" AND "))"
-            let groupClouse = group.count == 0 ? "" : "GROUP BY \(group.joinWithSeparator(", "))"
-            let orderClouse = order.count == 0 ? "" : "ORDER BY \(order.joinWithSeparator(", "))"
+            let whereClouse = filter.count == 0 ? "" : "WHERE \(filter.joined(separator: " AND "))"
+            let groupClouse = group.count == 0 ? "" : "GROUP BY \(group.joined(separator: ", "))"
+            let orderClouse = order.count == 0 ? "" : "ORDER BY \(order.joined(separator: ", "))"
 
             return [selectClouse, whereClouse, groupClouse, orderClouse, limit, offset].filter {
                 $0.characters.count > 0
-            }.joinWithSeparator(" ")
+            }.joined(separator: " ")
         }
     }
 
@@ -36,24 +36,24 @@ public class Relation<T> {
         }
     }
 
-    public var all: Relation<T> {
+    open var all: Relation<T> {
         get {
             return self
         }
     }
 
-    public var first: T? {
+    open var first: T? {
         get {
             return result.first
         }
     }
 
-    public func offset(offset: UInt) -> Self {
+    open func offset(_ offset: UInt) -> Self {
         self.offset = "OFFSET \(offset)"
         return self
     }
 
-    public func limit(length: UInt, offset: UInt = 0) -> Self {
+    open func limit(_ length: UInt, offset: UInt = 0) -> Self {
         self.limit = "LIMIT \(length)"
         if offset != 0 {
             self.offset = "OFFSET \(offset)"
@@ -61,17 +61,17 @@ public class Relation<T> {
         return self
     }
     
-    public func take(length: UInt) -> Self {
+    open func take(_ length: UInt) -> Self {
         return self.limit(length)
     }
 }
 
-extension Relation: SequenceType {
-    public typealias Generator = AnyGenerator<T>
+extension Relation: Sequence {
+    public typealias Iterator = AnyIterator<T>
 
-    public func generate() -> Generator {
+    public func makeIterator() -> Iterator {
         var index = 0
-        return AnyGenerator {
+        return AnyIterator {
             if index < self.result.count {
                 let element = self.result[index]
                 index += 1
@@ -82,7 +82,19 @@ extension Relation: SequenceType {
     }
 }
 
-extension Relation: CollectionType {
+extension Relation: Collection {
+    /// Returns the position immediately after the given index.
+    ///
+    /// - Parameter i: A valid index of the collection. `i` must be less than
+    ///   `endIndex`.
+    /// - Returns: The index value immediately after `i`.
+    public func index(after i: Int) -> Int {
+        if i < endIndex {
+            return i + 1
+        }
+        return i
+    }
+
     public typealias Index = Int
 
     public var startIndex: Int {
@@ -100,12 +112,12 @@ extension Relation: CollectionType {
 
 extension Relation: CustomStringConvertible {
     public var description: String {
-        let desc: NSString = result.description
+        let desc: NSString = result.description as NSString
         let content: String = desc
-            .substringWithRange(NSRange(location: 1, length: result.description.characters.count - 2))
-            .componentsSeparatedByString("), ")
-            .joinWithSeparator("), \n\t")
-            .stringByReplacingOccurrencesOfString("MetaModel.", withString: "")
+            .substring(with: NSRange(location: 1, length: result.description.characters.count - 2))
+            .components(separatedBy: "), ")
+            .joined(separator: "), \n\t")
+            .replacingOccurrences(of: "MetaModel.", with: "")
 
         return "[\n\t\(content)\n]"
     }

@@ -28,7 +28,7 @@ func retrieveMetaModelTableInfos() -> [TableName: HashValue] {
     return models
 }
 
-func updateMetaModelTableInfos(tableName: String, hashValue: String) {
+func updateMetaModelTableInfos(_ tableName: String, hashValue: String) {
     let insertSQL = "INSERT INTO meta_model_tables (name, hash) VALUES (\(tableName.unwrapped), \(hashValue.unwrapped));"
     executeSQL(insertSQL, suppress: true)
 

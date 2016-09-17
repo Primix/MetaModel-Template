@@ -14,8 +14,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Article.create(id: 1, title: "TItle", content: "Hello", createdAt: NSDate())
-
+        Article.create(title: "Title", content: "Content", createdAt: Date())
+        
         for article in Article.all {
             print(article)
         }

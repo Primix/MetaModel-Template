@@ -8,14 +8,14 @@
 
 import Foundation
 
-extension NSDate {
-    convenience init(_ secs: Double) {
+extension Date {
+    init(_ secs: Double) {
         self.init(timeIntervalSince1970: secs)
     }
 }
 
 extension Bool {
-    init<T : IntegerType>(_ integer: T) {
+    init<T : Integer>(_ integer: T) {
         if integer == 0 {
             self.init(false)
         } else {

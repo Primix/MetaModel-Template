@@ -12,4 +12,4 @@ let IntDefaultValue = Int.max
 let StringDefaultValue = "MModel.MetaModel.DefaultValue"
 let DoubleDefaultValue = Double.infinity
 let FloatDefaultValue = Float.infinity
-let NSDateDefaultValue = NSDate(timeIntervalSince1970: 0)
+let DateDefaultValue = Date(timeIntervalSince1970: 0)

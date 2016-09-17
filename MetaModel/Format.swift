@@ -9,19 +9,19 @@
 import Foundation
 
 extension Int {
-    func format(f: String) -> String {
+    func format(_ f: String) -> String {
         return String(format: "%\(f)d", self)
     }
 }
 
 extension Double {
-    func format(f: String) -> String {
+    func format(_ f: String) -> String {
         return String(format: "%\(f)f", self)
     }
 }
 
 extension Float {
-    func format(f: String) -> String {
+    func format(_ f: String) -> String {
         return String(format: "%\(f)f", self)
     }
 }

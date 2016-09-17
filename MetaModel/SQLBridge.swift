@@ -9,17 +9,17 @@
 import Foundation
 
 let path = NSSearchPathForDirectoriesInDomains(
-    .DocumentDirectory, .UserDomainMask, true
+    .documentDirectory, .userDomainMask, true
     ).first! as String
 
 let db =  try! Connection("\(path)/metamodel_db.sqlite3")
 
-func executeSQL(sql: String, verbose: Bool = false, suppress: Bool = false, success: (() -> ())? = nil) -> Statement? {
-    let startDate = NSDate()
+@discardableResult func executeSQL(_ sql: String, verbose: Bool = false, suppress: Bool = false, success: (() -> ())? = nil) -> Statement? {
+    let startDate = Date()
     do {
         let result = try db.run(sql)
-        let endDate = NSDate()
-        let interval = endDate.timeIntervalSinceDate(startDate) * 1000
+        let endDate = Date()
+        let interval = endDate.timeIntervalSince(startDate) * 1000
 
         if verbose { print("SQL: SUCCEED  | (\(interval.format("0.2"))ms) \(sql)") }
 
@@ -27,16 +27,36 @@ func executeSQL(sql: String, verbose: Bool = false, suppress: Bool = false, succ
 
         return result
     } catch let error {
-        let endDate = NSDate()
-        let interval = endDate.timeIntervalSinceDate(startDate) * 1000
+        let endDate = Date()
+        let interval = endDate.timeIntervalSince(startDate) * 1000
         if !suppress { print("SQL: ROLLBACK | (\(interval.format("0.2"))ms) \(sql) | ERROR: \(error)") }
     }
     return nil
 }
 
-func executeTransaction(sqls: [String], verbose: Bool = false, block: Void -> Void) -> [Statement] {
+@discardableResult func executeScalarSQL(_ sql: String, verbose: Bool = false, suppress: Bool = false, success: (() -> ())? = nil) -> Binding? {
+    let startDate = Date()
+    do {
+        let result = try db.scalar(sql)
+        let endDate = Date()
+        let interval = endDate.timeIntervalSince(startDate) * 1000
+
+        if verbose { print("SQL: SUCCEED  | (\(interval.format("0.2"))ms) \(sql)") }
+
+        if let success = success { success() }
+
+        return result
+    } catch let error {
+        let endDate = Date()
+        let interval = endDate.timeIntervalSince(startDate) * 1000
+        if !suppress { print("SQL: ROLLBACK | (\(interval.format("0.2"))ms) \(sql) | ERROR: \(error)") }
+    }
+    return nil
+}
+
+func executeTransaction(_ sqls: [String], verbose: Bool = false, block: (Void) -> Void) -> [Statement] {
     var result: [Statement] = []
-    let startDate = NSDate()
+    let startDate = Date()
     do {
         try db.transaction {
             for sql in sqls {
@@ -44,19 +64,9 @@ func executeTransaction(sqls: [String], verbose: Bool = false, block: Void -> Vo
             }
         }
     } catch let error {
-        let endDate = NSDate()
-        let interval = endDate.timeIntervalSinceDate(startDate) * 1000
+        let endDate = Date()
+        let interval = endDate.timeIntervalSince(startDate) * 1000
         print("SQL: ROLLBACK | (\(interval.format("0.2"))ms) \(sqls) | ERROR: \(error)")
     }
-    return result
-}
-
-func executeScalarSQL(sql: String, verbose: Bool = false, success: (() -> ())? = nil) -> Binding? {
-    let startDate = NSDate()
-    let result = db.scalar(sql)
-    let endDate = NSDate()
-    let interval = endDate.timeIntervalSinceDate(startDate) * 1000
-    if verbose { print("SQL: SUCCEED  | (\(interval.format("0.2"))ms) \(sql)") }
-    if let success = success { success() }
     return result
 }

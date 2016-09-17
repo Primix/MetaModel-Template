@@ -24,11 +24,11 @@
 
 struct Row {
 
-    private let columnNames: [String: Int]
+    fileprivate let columnNames: [String: Int]
 
-    private let values: [Binding?]
+    fileprivate let values: [Binding?]
 
-    private init(_ columnNames: [String: Int], _ values: [Binding?]) {
+    fileprivate init(_ columnNames: [String: Int], _ values: [Binding?]) {
         self.columnNames = columnNames
         self.values = values
     }
@@ -38,11 +38,11 @@ struct Row {
     /// - Parameter column: An expression representing a column selecpublicted in a Query.
     ///
     /// - Returns: The value for the given column.
-    func get<V: Value>(column: Expression<V>) -> V {
+    func get<V: Value>(_ column: Expression<V>) -> V {
         return get(Expression<V?>(column))!
     }
-    func get<V: Value>(column: Expression<V?>) -> V? {
-        func valueAtIndex(idx: Int) -> V? {
+    func get<V: Value>(_ column: Expression<V?>) -> V? {
+        func valueAtIndex(_ idx: Int) -> V? {
             guard let value = values[idx] as? V.Datatype else { return nil }
             return (V.fromDatatypeValue(value) as? V)!
         }
@@ -52,7 +52,7 @@ struct Row {
 
             switch similar.count {
             case 0:
-                fatalError("no such column '\(column.template)' in columns: \(columnNames.keys.sort())")
+                fatalError("no such column '\(column.template)' in columns: \(columnNames.keys.sorted())")
             case 1:
                 return valueAtIndex(columnNames[similar[0]]!)
             default:

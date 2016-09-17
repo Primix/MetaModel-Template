@@ -39,7 +39,7 @@ protocol Value : Expressible { // extensions cannot have inheritance clauses
 
     static var declaredDatatype: String { get }
 
-    static func fromDatatypeValue(datatypeValue: Datatype) -> ValueType
+    static func fromDatatypeValue(_ datatypeValue: Datatype) -> ValueType
 
     var datatypeValue: Datatype { get }
 
@@ -49,7 +49,7 @@ extension Double : Number, Value {
 
     static let declaredDatatype = "REAL"
 
-    static func fromDatatypeValue(datatypeValue: Double) -> Double {
+    static func fromDatatypeValue(_ datatypeValue: Double) -> Double {
         return datatypeValue
     }
 
@@ -63,7 +63,7 @@ extension Int64 : Number, Value {
 
     static let declaredDatatype = "INTEGER"
 
-    static func fromDatatypeValue(datatypeValue: Int64) -> Int64 {
+    static func fromDatatypeValue(_ datatypeValue: Int64) -> Int64 {
         return datatypeValue
     }
 
@@ -77,7 +77,7 @@ extension String : Binding, Value {
 
     static let declaredDatatype = "TEXT"
 
-    static func fromDatatypeValue(datatypeValue: String) -> String {
+    static func fromDatatypeValue(_ datatypeValue: String) -> String {
         return datatypeValue
     }
 
@@ -91,7 +91,7 @@ extension Blob : Binding, Value {
 
     static let declaredDatatype = "BLOB"
 
-    static func fromDatatypeValue(datatypeValue: Blob) -> Blob {
+    static func fromDatatypeValue(_ datatypeValue: Blob) -> Blob {
         return datatypeValue
     }
 
@@ -107,7 +107,7 @@ extension Bool : Binding, Value {
 
     static var declaredDatatype = Int64.declaredDatatype
 
-    static func fromDatatypeValue(datatypeValue: Int64) -> Bool {
+    static func fromDatatypeValue(_ datatypeValue: Int64) -> Bool {
         return datatypeValue != 0
     }
 
@@ -121,7 +121,7 @@ extension Int : Number, Value {
 
     static var declaredDatatype = Int64.declaredDatatype
 
-    static func fromDatatypeValue(datatypeValue: Int64) -> Int {
+    static func fromDatatypeValue(_ datatypeValue: Int64) -> Int {
         return Int(datatypeValue)
     }
 

@@ -10,102 +10,93 @@ import Foundation
 
 extension Comment {
     static func initialize() {
-        let initializeTableSQL = "CREATE TABLE comments(_id INTEGER PRIMARY KEY, id INTEGER UNIQUE DEFAULT 0, content TEXT, articleId INTEGER DEFAULT 0, FOREIGN KEY(articleId) REFERENCES ints(_id));"
+        let initializeTableSQL = "CREATE TABLE comments(private_id INTEGER PRIMARY KEY, content TEXT);"
         executeSQL(initializeTableSQL)
     }
     static func deinitialize() {
-        let dropTableSQL = "DROP TABLE \(tableName.unwrapped)"
+        let dropTableSQL = "DROP TABLE \(tableName)"
         executeSQL(dropTableSQL)
     }
 }
 
 public struct Comment {
-    public var id: Int
+    var privateId: Int = 0
     public var content: String
-    public var articleId: Int
     
     static let tableName = "comments"
 
-    public enum Column: String, Unwrapped {
-        case id = "id"
+    public enum Column: String, CustomStringConvertible {
         case content = "content"
-        case articleId = "articleId"
         
-        var unwrapped: String { get { return self.rawValue.unwrapped } }
+        case privateId = "private_id"
+
+        public var description: String { get { return self.rawValue } }
     }
 
-    public init(id: Int = 0, content: String, articleId: Int = 0) {
-        self.id = id
+    public init(content: String) {
         self.content = content
-        self.articleId = articleId
         
     }
 
-    static public func new(id id: Int = 0, content: String, articleId: Int = 0) -> Comment {
-        return Comment(id: id, content: content, articleId: articleId)
+    @discardableResult static public func new(content: String) -> Comment {
+        return Comment(content: content)
     }
 
-    static public func create(id id: Int = 0, content: String, articleId: Int = 0) -> Comment? {
-        if id == 0 || articleId == 0 { return nil }
+    @discardableResult static public func create(content: String) -> Comment? {
+        //if false == true { return nil }
 
         var columnsSQL: [Comment.Column] = []
         var valuesSQL: [Unwrapped] = []
 
-        columnsSQL.append(.id)
-        valuesSQL.append(id)
         
         columnsSQL.append(.content)
         valuesSQL.append(content)
         
-        columnsSQL.append(.articleId)
-        valuesSQL.append(articleId)
-        
-        let insertSQL = "INSERT INTO \(tableName.unwrapped) (\(columnsSQL.map { $0.rawValue }.joinWithSeparator(", "))) VALUES (\(valuesSQL.map { $0.unwrapped }.joinWithSeparator(", ")))"
-        guard let _ = executeSQL(insertSQL) else { return nil }
-        return Comment(id: id, content: content, articleId: articleId)
+        let insertSQL = "INSERT INTO \(tableName) (\(columnsSQL.map { $0.rawValue }.joined(separator: ", "))) VALUES (\(valuesSQL.map { $0.unwrapped }.joined(separator: ", ")))"
+        guard let _ = executeSQL(insertSQL),
+          let lastInsertRowId = executeScalarSQL("SELECT last_insert_rowid();") as? Int64 else { return nil }
+        var result = Comment(content: content)
+        result.privateId = Int(lastInsertRowId)
+        return result
     }
 }
 
 // MARK: - Update
 
 public extension Comment {
-    mutating func update(content content: String = StringDefaultValue, articleId: Int = IntDefaultValue) -> Comment {
+    @discardableResult mutating func update(content: String = StringDefaultValue) {
         var attributes: [Comment.Column: Any] = [:]
         if (content != StringDefaultValue) { attributes[.content] = content }
-        if (articleId != IntDefaultValue) { attributes[.articleId] = articleId }
-        return self.update(attributes)
+        
+        self.update(attributes: attributes)
     }
 
-    mutating func update(attributes: [Comment.Column: Any]) -> Comment {
+    @discardableResult mutating func update(attributes: [Comment.Column: Any]) {
         var setSQL: [String] = []
         if let attributes = attributes as? [Comment.Column: Unwrapped] {
             for (key, value) in attributes {
                 switch key {
-                case .content: setSQL.append("\(key.unwrapped) = \(value.unwrapped)")
-                case .articleId: setSQL.append("\(key.unwrapped) = \(value.unwrapped)")
+                case .content: setSQL.append("\(key) = \(value.unwrapped)")
                 default: break
                 }
             }
-            let updateSQL = "UPDATE \(Comment.tableName.unwrapped) SET \(setSQL.joinWithSeparator(", ")) \(itself)"
-            executeSQL(updateSQL) {
-                for (key, value) in attributes {
-                    switch key {
-                    case .content: self.content = value as! String
-                    case .articleId: self.articleId = value as! Int
-                    default: break
-                    }
+            let updateSQL = "UPDATE \(Comment.tableName) SET \(setSQL.joined(separator: ", ")) \(itself)"
+            guard let _ = executeSQL(updateSQL) else { return }
+            for (key, value) in attributes {
+                switch key {
+                case .content: self.content = value as! String
+                default: break
                 }
             }
         }
-        return self
     }
 
     var save: Comment {
         mutating get {
-            if let _ = Comment.find(id) {
-                update([.id: id, .content: content, .articleId: articleId])
+            if let _ = Comment.find(privateId) {
+                update(attributes: [.content: content])
             } else {
-                Comment.create(id: id, content: content, articleId: articleId)
+                Comment.create(content: content)
             }
             return self
         }
@@ -119,11 +110,19 @@ public extension Comment {
 }
 
 public extension CommentRelation {
-    public func updateAll(column: Comment.Column, value: Any) {
-        self.result.forEach { (element) in
+    @discardableResult public func updateAll(content: String = StringDefaultValue) -> Self {
+        return update(content: content)
+    }
+
+    @discardableResult public func update(content: String = StringDefaultValue) -> Self {
+        var attributes: [Comment.Column: Any] = [:]
+        if (content != StringDefaultValue) { attributes[.content] = content }
+        
+        result.forEach { (element) in
             var element = element
-            element.update([column: value])
+            element.update(attributes: attributes)
         }
+        return self
     }
 }
 
@@ -136,38 +135,38 @@ public extension Comment {
 
     static var first: Comment? {
         get {
-            return CommentRelation().orderBy(.id, asc: true).first
+            return CommentRelation().orderBy(column: .privateId, asc: true).first
         }
     }
 
     static var last: Comment? {
         get {
-            return CommentRelation().orderBy(.id, asc: false).first
+            return CommentRelation().orderBy(column: .privateId, asc: false).first
         }
     }
 
     static func first(length: UInt) -> CommentRelation {
-        return CommentRelation().orderBy(.id, asc: true).limit(length)
+        return CommentRelation().orderBy(column: .privateId, asc: true).limit(length)
     }
 
     static func last(length: UInt) -> CommentRelation {
-        return CommentRelation().orderBy(.id, asc: false).limit(length)
+        return CommentRelation().orderBy(column: .privateId, asc: false).limit(length)
     }
 
-    static func find(id: Int) -> Comment? {
-        return CommentRelation().find(id).first
+    internal static func find(_ privateId: Int) -> Comment? {
+        return CommentRelation().find(privateId).first
     }
 
-    static func findBy(id id: Int = IntDefaultValue, content: String = StringDefaultValue, articleId: Int = IntDefaultValue) -> CommentRelation {
-        var attributes: [Comment.Column: Any] = [:]
-        if (id != IntDefaultValue) { attributes[.id] = id }
-        if (content != StringDefaultValue) { attributes[.content] = content }
-        if (articleId != IntDefaultValue) { attributes[.articleId] = articleId }
-        return CommentRelation().filter(attributes)
+    internal static func find(_ privateIds: [Int]) -> CommentRelation {
+        return CommentRelation().find(privateIds)
     }
 
-    static func filter(id id: Int = IntDefaultValue, content: String = StringDefaultValue, articleId: Int = IntDefaultValue) -> CommentRelation {
-        return findBy(id: id, content: content, articleId: articleId)
+    static func findBy(content: String = StringDefaultValue) -> CommentRelation {
+        return CommentRelation().findBy(content: content)
+    }
+
+    static func filter(content: String = StringDefaultValue) -> CommentRelation {
+        return CommentRelation().filter(content: content)
     }
 
     static func limit(length: UInt, offset: UInt = 0) -> CommentRelation {
@@ -175,7 +174,7 @@ public extension Comment {
     }
 
     static func take(length: UInt) -> CommentRelation {
-        return limit(length)
+        return CommentRelation().limit(length)
     }
 
     static func offset(offset: UInt) -> CommentRelation {
@@ -183,59 +182,53 @@ public extension Comment {
     }
 
     static func groupBy(columns: Comment.Column...) -> CommentRelation {
-        return CommentRelation().groupBy(columns)
+        return CommentRelation().groupBy(columns: columns)
     }
 
     static func groupBy(columns: [Comment.Column]) -> CommentRelation {
-        return CommentRelation().groupBy(columns)
+        return CommentRelation().groupBy(columns: columns)
     }
 
     static func orderBy(column: Comment.Column) -> CommentRelation {
-        return CommentRelation().orderBy(column)
+        return CommentRelation().orderBy(column: column)
     }
 
     static func orderBy(column: Comment.Column, asc: Bool) -> CommentRelation {
-        return CommentRelation().orderBy(column, asc: asc)
+        return CommentRelation().orderBy(column: column, asc: asc)
     }
 }
 
 public extension CommentRelation {
-    func find(id: Int) -> Self {
-        return findBy(id: id)
-    }
-
-    func findBy(id id: Int = IntDefaultValue, content: String = StringDefaultValue, articleId: Int = IntDefaultValue) -> Self {
+    func findBy(content: String = StringDefaultValue) -> Self {
         var attributes: [Comment.Column: Any] = [:]
-        if (id != IntDefaultValue) { attributes[.id] = id }
         if (content != StringDefaultValue) { attributes[.content] = content }
-        if (articleId != IntDefaultValue) { attributes[.articleId] = articleId }
-        return self.filter(attributes)
+        return self.filter(conditions: attributes)
     }
 
-    func filter(id id: Int = IntDefaultValue, content: String = StringDefaultValue, articleId: Int = IntDefaultValue) -> Self {
-        return findBy(id: id, content: content, articleId: articleId)
+    func filter(content: String = StringDefaultValue) -> Self {
+        return findBy(content: content)
     }
 
     func filter(conditions: [Comment.Column: Any]) -> Self {
         for (column, value) in conditions {
             let columnSQL = "\(expandColumn(column))"
 
-            func filterByEqual(value: Any) {
+            func filterByEqual(_ value: Any) {
                 self.filter.append("\(columnSQL) = \(value)")
             }
 
-            func filterByIn(value: [String]) {
-                self.filter.append("\(columnSQL) IN (\(value.joinWithSeparator(", ")))")
+            func filterByIn(_ value: [String]) {
+                self.filter.append("\(columnSQL) IN (\(value.joined(separator: ", ")))")
             }
 
             if let value = value as? String {
-                filterByEqual(value.unwrapped)
+                filterByEqual(value)
             } else if let value = value as? Int {
                 filterByEqual(value)
             } else if let value = value as? Double {
                 filterByEqual(value)
             } else if let value = value as? [String] {
-                filterByIn(value.map { $0.unwrapped })
+                filterByIn(value.map { $0 })
             } else if let value = value as? [Int] {
                 filterByIn(value.map { $0.description })
             } else if let value = value as? [Double] {
@@ -250,7 +243,7 @@ public extension CommentRelation {
     }
 
     func groupBy(columns: Comment.Column...) -> Self {
-        return self.groupBy(columns)
+        return self.groupBy(columns: columns)
     }
 
     func groupBy(columns: [Comment.Column]) -> Self {
@@ -267,7 +260,7 @@ public extension CommentRelation {
     }
 
     func orderBy(column: Comment.Column, asc: Bool) -> Self {
-        self.order.append("\(expandColumn(column)) \(asc ? "ASC".unwrapped : "DESC".unwrapped)")
+        self.order.append("\(expandColumn(column)) \(asc ? "ASC" : "DESC")")
         return self
     }
 }
@@ -277,18 +270,17 @@ public extension CommentRelation {
 public extension Comment {
     var delete: Bool {
         get {
-            let deleteSQL = "DELETE FROM \(Comment.tableName.unwrapped) \(itself)"
+            let deleteSQL = "DELETE FROM \(Comment.tableName) \(itself)"
             executeSQL(deleteSQL)
             return true
         }
     }
-    static func deleteAll() {
-        let deleteAllSQL = "DELETE FROM \(tableName.unwrapped)"
-        executeSQL(deleteAllSQL)
-    }
+    static var deleteAll: Bool { get { return CommentRelation().deleteAll } }
 }
 
 public extension CommentRelation {
+    var delete: Bool { get { return deleteAll } }
+
     var deleteAll: Bool {
         get {
             self.result.forEach { $0.delete }
@@ -300,62 +292,47 @@ public extension CommentRelation {
 public extension Comment {
     static var count: Int {
         get {
-            let countSQL = "SELECT count(*) FROM \(tableName.unwrapped)"
+            let countSQL = "SELECT count(*) FROM \(tableName)"
             guard let count = executeScalarSQL(countSQL) as? Int64 else { return 0 }
             return Int(count)
         }
     }
 }
 
-// MARK: - Association
-
-public extension Comment {
-    var article: Article? {
-        get {
-            return Article.find(id)
-        }
-        set {
-            guard let newValue = newValue else { return }
-            update(articleId: newValue.id)
-        }
-    }
-
-}
-
 // MAKR: - Helper
 
-public class CommentRelation: Relation<Comment> {
+open class CommentRelation: Relation<Comment> {
     override init() {
         super.init()
-        self.select = "SELECT \(Comment.tableName.unwrapped).* FROM \(Comment.tableName.unwrapped)"
+        self.select = "SELECT \(Comment.tableName).* FROM \(Comment.tableName)"
     }
 
     override var result: [Comment] {
         get {
-            var models: [Comment] = []
-            guard let stmt = executeSQL(query) else { return models }
-            for values in stmt {
-                models.append(Comment(values: values))
-            }
-            return models
+            return MetaModels.fromQuery(query)
         }
     }
 
-    func expandColumn(column: Comment.Column) -> String {
-        return "\(Comment.tableName.unwrapped).\(column.unwrapped)"
+    func expandColumn(_ column: Comment.Column) -> String {
+        return "\(Comment.tableName).\(column)"
     }
 }
 
 extension Comment {
-    init(values: Array<Optional<Binding>>) {
-        let id: Int64 = values[1] as! Int64
-        let content: String = values[2] as! String
-        let articleId: Int64 = values[3] as! Int64
-        
-        self.init(id: Int(id), content: String(content), articleId: Int(articleId))
-    }
+    var itself: String { get { return "WHERE \(Comment.tableName).private_id = \(privateId)" } }
 }
 
-extension Comment {
-    var itself: String { get { return "WHERE \(Article.tableName.unwrapped).\("id".unwrapped) = \(id)" } }
+extension CommentRelation {
+    func find(_ privateId: Int) -> Self {
+        return filter(privateId)
+    }
+
+    func find(_ privateIds: [Int]) -> Self {
+        return filter(conditions: [.privateId: privateIds])
+    }
+
+    func filter(_ privateId: Int) -> Self {
+        self.filter.append("private_id = \(privateId)")
+        return self
+    }
 }
